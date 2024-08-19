@@ -8,6 +8,7 @@ export const TagTypes = {
   CATEGORY: "Category",
   ORDER: "Order",
   SERVICE: "Service",
+  OFFICEINFO: "OfficeInfo",
 } as const;
 
 export type TagType = (typeof TagTypes)[keyof typeof TagTypes];

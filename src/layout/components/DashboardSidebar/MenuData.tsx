@@ -104,6 +104,11 @@ const MenuData: React.FC = () => {
     // },
 
     {
+      key: "/officeInfo",
+      label: <Link to="/officeInfo">Office Info</Link>,
+      icon: <Iconify name="mdi:work" style={iconStyle} />,
+    },
+    {
       key: "/order",
       label: <Link to="/order">Order</Link>,
       icon: <Iconify name="mdi:work" style={iconStyle} />,

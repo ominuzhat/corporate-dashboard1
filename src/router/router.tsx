@@ -51,6 +51,7 @@ import ProductView from "../modules/Product/pages/ProductView";
 import CategoryPage from "../modules/Configuration/Category/pages/CategoryPage";
 import OrderPages from "../modules/Order/pages/OrderPages";
 import ServicePages from "../modules/service/pages/ServicePages";
+import OfficeInfoPage from "../modules/officeInfo/pages/OfficeInfoPage";
 
 const router = createBrowserRouter([
   {
@@ -81,6 +82,22 @@ const router = createBrowserRouter([
           },
         ],
       },
+
+      {
+        path: "/officeInfo",
+        element: <OfficeInfoPage />,
+        children: [
+          {
+            path: "create-passport",
+            element: <CreatePassportManagement />,
+          },
+          {
+            path: "passport-view/1",
+            element: <ViewPassportManagement />,
+          },
+        ],
+      },
+
       {
         path: "/passport",
         element: <Accounts />,

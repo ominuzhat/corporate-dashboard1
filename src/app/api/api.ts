@@ -22,10 +22,20 @@ const baseQuery: BaseQueryFn<
   baseUrl,
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.access_token;
+    // const apiKey = import.meta.env.VITE_API_KEY as string;
 
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);
     }
+
+    // if (token && apiKey) {
+    //   headers.set("x-api-key", apiKey);
+    // } else {
+    //   console.error(
+    //     "API key is undefined. Please check your environment variables."
+    //   );
+    // }
+
     return headers;
   },
 });
@@ -36,11 +46,11 @@ export const api = createApi({
     const response = await baseQuery(args, api, extraOptions);
 
     const errorStatus = [
-      401,
-      // 403,
-      "CUSTOM_ERROR",
-      "FETCH_ERROR",
-      "PARSING_ERROR",
+      // 401,
+      403,
+      // "CUSTOM_ERROR",
+      // "FETCH_ERROR",
+      // "PARSING_ERROR",
       "TIMEOUT_ERROR",
     ];
 

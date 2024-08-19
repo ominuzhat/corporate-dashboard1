@@ -14,7 +14,7 @@
     "@reduxjs/toolkit": "^2.2.5",
     "antd": "^5.18.1",
     "apexcharts": "^3.49.1",
-    "axios": "^1.7.3",
+    "axios": "^1.7.4",
     "dayjs": "^1.11.11",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
