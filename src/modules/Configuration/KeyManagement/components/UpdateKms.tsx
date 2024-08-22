@@ -1,18 +1,18 @@
 import React, { useEffect } from "react";
 import { Col, Form as AntForm, Input, Row, Button, Select } from "antd";
-import { useUpdateCategoryMutation } from "../api/CategoryEndPoints";
+import { useUpdateKmsMutation } from "../api/KmsEndPoints";
 import {
-  TCategoryDataTypes,
-  TCreateCategoryTypes,
-} from "../types/CategoryTypes";
+  TKmsDataTypes,
+  TUpdateKmsTypes,
+} from "../types/KmsTypes";
 import { useGetWebServiceQuery } from "../../WebService/api/WebServiceEndPoints";
 
 interface Props {
-  record: TCategoryDataTypes;
+  record: TKmsDataTypes;
 }
 
-const UpdateCategory: React.FC<Props> = ({ record }) => {
-  const [update, { isLoading }] = useUpdateCategoryMutation();
+const UpdateKms: React.FC<Props> = ({ record }) => {
+  const [update, { isLoading }] = useUpdateKmsMutation();
   const { data: webServiceData }: any = useGetWebServiceQuery({});
   const [form] = AntForm.useForm();
 
@@ -23,11 +23,10 @@ const UpdateCategory: React.FC<Props> = ({ record }) => {
     })) || [];
 
   useEffect(() => {
-    form.setFieldsValue({ name: record?.name, webService: record?.webService.id });
+    form.setFieldsValue({ clientId: record?.clientId });
   }, [record, form]);
 
-  const onFinish = (values: TCategoryDataTypes): void => {
-    console.log(values,"values");
+  const onFinish = (values: TKmsDataTypes): void => {
     update({ id: record.id, data: values });
   };
 
@@ -36,9 +35,9 @@ const UpdateCategory: React.FC<Props> = ({ record }) => {
       <AntForm form={form} layout="vertical" onFinish={onFinish}>
         <Row gutter={[10, 10]}>
         <Col lg={6}>
-            <AntForm.Item<TCreateCategoryTypes>
+            <AntForm.Item<TUpdateKmsTypes>
               label="Web Service"
-              name="webService"
+              name="expirationDays"
               rules={[
                 { required: true, message: "please select a web service" },
               ]}
@@ -57,9 +56,9 @@ const UpdateCategory: React.FC<Props> = ({ record }) => {
             </AntForm.Item>
           </Col>
           <Col span={24} lg={12}>
-            <AntForm.Item<TCreateCategoryTypes>
+            <AntForm.Item<TUpdateKmsTypes>
               label="Name"
-              name="name"
+              name="clientId"
               rules={[{ required: true, message: "Name is required" }]}
             >
               <Input placeholder="Name" />
@@ -78,4 +77,4 @@ const UpdateCategory: React.FC<Props> = ({ record }) => {
   );
 };
 
-export default UpdateCategory;
+export default UpdateKms;

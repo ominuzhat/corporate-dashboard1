@@ -35,7 +35,7 @@ const DashboardHeader: React.FC<Props> = ({ setOpen }) => {
 
   const handleLogout = (): void => {
     dispatch(loggedOut());
-    // localStorage.removeItem(TOKEN_NAME);
+    localStorage.removeItem(TOKEN_NAME);
     navigate("/login");
   };
 

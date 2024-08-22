@@ -8,7 +8,7 @@ const usersEndpoint = api.injectEndpoints({
   endpoints: (builder) => ({
     getUsers: builder.query<ApiResponse<UsersTypes[]>, FilterTypes>({
       query: (params) => ({
-        url: "/admin/users",
+        url: "/user",
         params,
       }),
       providesTags: [{ type: "Users", id: "USERS_ID" }],
@@ -16,7 +16,7 @@ const usersEndpoint = api.injectEndpoints({
 
     createUser: builder.mutation<ApiResponse<UsersTypes>, UsersTypes>({
       query: (data) => ({
-        url: "/admin/users",
+        url: "/users",
         method: "POST",
         body: data,
       }),
@@ -31,7 +31,7 @@ const usersEndpoint = api.injectEndpoints({
       { id: number; data: UsersTypes }
     >({
       query: ({ id, data }) => ({
-        url: `/admin/users/${id}`,
+        url: `/users/${id}`,
         method: "POST",
         body: data,
       }),

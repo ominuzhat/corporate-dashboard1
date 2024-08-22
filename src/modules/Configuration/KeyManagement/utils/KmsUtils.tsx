@@ -2,16 +2,17 @@
 import { Space } from "antd";
 import { useDispatch } from "react-redux";
 import type { ColumnsType } from "antd/es/table";
-import { TCategoryDataTypes } from "../types/CategoryTypes";
-import { useDeleteCategoryItemMutation } from "../api/CategoryEndPoints";
+import { TKmsDataTypes } from "../types/KmsTypes";
+import { useDeleteKmsItemMutation } from "../api/KmsEndPoints";
 import EditButton from "../../../../common/CommonAnt/Button/EditButton";
 import { showModal } from "../../../../app/features/modalSlice";
 import DeleteButton from "../../../../common/CommonAnt/Button/DeleteButton";
-import UpdateCategory from "../components/UpdateCategory";
+import UpdateKms from "../components/UpdateKms";
+import moment from "moment";
 
-const useColumns = (): ColumnsType<TCategoryDataTypes> => {
+const useColumns = (): ColumnsType<TKmsDataTypes> => {
   const dispatch = useDispatch();
-  const [deleteCartItem] = useDeleteCategoryItemMutation();
+  const [deleteCartItem] = useDeleteKmsItemMutation();
   const handleDelete = async (id: any) => {
     try {
       await deleteCartItem({ id }).unwrap();
@@ -29,25 +30,33 @@ const useColumns = (): ColumnsType<TCategoryDataTypes> => {
     },
     {
       key: "1",
-      title: "Name",
+      title: "Client Id",
       align: "center",
-      dataIndex: "name",
-      render: (title) => (title ? title : "N/A"),
+      dataIndex: "clientId",
+      render: (clientId) => (clientId ? clientId : "N/A"),
     },
+    // {
+    //   key: "2",
+    //   title: "Api Key",
+    //   align: "center",
+    //   dataIndex: "apiKey",
+    //   render: (apiKey) => (apiKey ? apiKey : "N/A"),
+    // },
     {
       key: "2",
-      title: "Web Service Id",
+      title: "Expires At",
       align: "center",
-      dataIndex: "webService",
-      render: (webService) =>
-        webService.serviceId ? webService.serviceId : "N/A",
+      dataIndex: "expiresAt",
+      render: (expiresAt) =>
+        expiresAt ? moment(expiresAt).format("YYYY-MM-DD HH:mm") : "N/A",
     },
     {
       key: "3",
-      title: "Service Id",
+      title: "Updated At",
       align: "center",
-      dataIndex: "webService",
-      render: (webService) => (webService.id ? webService.id : "N/A"),
+      dataIndex: "updatedAt",
+      render: (updatedAt) =>
+        updatedAt ? moment(updatedAt).format("YYYY-MM-DD HH:mm") : "N/A",
     },
     {
       title: "Actions",
@@ -58,8 +67,8 @@ const useColumns = (): ColumnsType<TCategoryDataTypes> => {
             onClick={() =>
               dispatch(
                 showModal({
-                  title: "Update Category",
-                  content: <UpdateCategory record={record} />,
+                  title: "Update Kms",
+                  content: <UpdateKms record={record} />,
                 })
               )
             }

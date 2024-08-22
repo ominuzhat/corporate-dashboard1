@@ -5,9 +5,8 @@ import {
   createApi,
   fetchBaseQuery,
 } from "@reduxjs/toolkit/query/react";
+import { baseUrl } from "../../utilities/baseQuery";
 import { RootState } from "../store";
-import { TOKEN_NAME, baseUrl } from "../../utilities/baseQuery";
-import { loggedOut } from "../features/authSlice";
 import { TagTypes } from "../utils/tagTypes";
 
 interface EnhancedFetchArgs extends FetchArgs {
@@ -22,19 +21,19 @@ const baseQuery: BaseQueryFn<
   baseUrl,
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.access_token;
-    // const apiKey = import.meta.env.VITE_API_KEY as string;
+    const apiKey = import.meta.env.VITE_API_KEY as string;
 
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);
     }
 
-    // if (token && apiKey) {
-    //   headers.set("x-api-key", apiKey);
-    // } else {
-    //   console.error(
-    //     "API key is undefined. Please check your environment variables."
-    //   );
-    // }
+    if (token && apiKey) {
+      headers.set("x-api-key", apiKey);
+    } else {
+      console.error(
+        "API key is undefined. Please check your environment variables."
+      );
+    }
 
     return headers;
   },
@@ -45,19 +44,19 @@ export const api = createApi({
   baseQuery: async (args: string | EnhancedFetchArgs, api, extraOptions) => {
     const response = await baseQuery(args, api, extraOptions);
 
-    const errorStatus = [
-      // 401,
-      403,
-      // "CUSTOM_ERROR",
-      // "FETCH_ERROR",
-      // "PARSING_ERROR",
-      "TIMEOUT_ERROR",
-    ];
+    // const errorStatus = [
+    //   // 401,
+    //   // 403,
+    //   // "CUSTOM_ERROR",
+    //   // "FETCH_ERROR",
+    //   // "PARSING_ERROR",
+    //   "TIMEOUT_ERROR",
+    // ];
 
-    if (response.error && errorStatus.includes(response.error?.status)) {
-      api.dispatch(loggedOut());
-      localStorage.removeItem(TOKEN_NAME);
-    }
+    // if (response.error && errorStatus.includes(response.error?.status)) {
+    //   api.dispatch(loggedOut());
+    //   localStorage.removeItem(TOKEN_NAME);
+    // }
 
     return response;
   },

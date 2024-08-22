@@ -52,12 +52,14 @@ import CategoryPage from "../modules/Configuration/Category/pages/CategoryPage";
 import OrderPages from "../modules/Order/pages/OrderPages";
 import ServicePages from "../modules/service/pages/ServicePages";
 import OfficeInfoPage from "../modules/officeInfo/pages/OfficeInfoPage";
+import PrivateRouter from "./PrivateRouter";
+import WebServicePage from "../modules/Configuration/WebService/pages/WebServicePage";
+import KmsPage from "../modules/Configuration/KeyManagement/pages/KmsPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <DashboardLayout />,
-    // element: <PrivateRouter children={<DashboardLayout />} />,
+    element: <PrivateRouter children={<DashboardLayout />} />,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -269,8 +271,15 @@ const router = createBrowserRouter([
       {
         path: "/category",
         element: <CategoryPage />,
+      },  
+      {
+        path: "/web-service",
+        element: <WebServicePage />,
       },
-
+      {
+        path: "/key-management",
+        element: <KmsPage />,
+      },
       {
         path: "/employee",
         element: <EmployeePage />,

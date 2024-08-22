@@ -298,6 +298,16 @@ const MenuData: React.FC = () => {
           icon: <Iconify name="tdesign:course" style={subIconStyle} />,
           key: "/category",
         },
+        {
+          label: <Link to="/web-service">Web Service</Link>,
+          icon: <Iconify name="tdesign:course" style={subIconStyle} />,
+          key: "/web-service",
+        },
+        {
+          label: <Link to="/key-management">Key Management</Link>,
+          icon: <Iconify name="tdesign:course" style={subIconStyle} />,
+          key: "/key-management",
+        },
         // {
         //   label: <Link to="/group">Group</Link>,
         //   icon: <Iconify name="ic:outline-group" style={subIconStyle} />,

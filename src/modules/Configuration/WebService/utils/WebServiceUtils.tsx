@@ -2,16 +2,16 @@
 import { Space } from "antd";
 import { useDispatch } from "react-redux";
 import type { ColumnsType } from "antd/es/table";
-import { TCategoryDataTypes } from "../types/CategoryTypes";
-import { useDeleteCategoryItemMutation } from "../api/CategoryEndPoints";
+import { TWebServiceDataTypes } from "../types/WebServiceTypes";
+import { useDeleteWebServiceItemMutation } from "../api/WebServiceEndPoints";
 import EditButton from "../../../../common/CommonAnt/Button/EditButton";
 import { showModal } from "../../../../app/features/modalSlice";
 import DeleteButton from "../../../../common/CommonAnt/Button/DeleteButton";
-import UpdateCategory from "../components/UpdateCategory";
+import UpdateWebService from "../components/UpdateWebService";
 
-const useColumns = (): ColumnsType<TCategoryDataTypes> => {
+const useColumns = (): ColumnsType<TWebServiceDataTypes> => {
   const dispatch = useDispatch();
-  const [deleteCartItem] = useDeleteCategoryItemMutation();
+  const [deleteCartItem] = useDeleteWebServiceItemMutation();
   const handleDelete = async (id: any) => {
     try {
       await deleteCartItem({ id }).unwrap();
@@ -36,18 +36,24 @@ const useColumns = (): ColumnsType<TCategoryDataTypes> => {
     },
     {
       key: "2",
-      title: "Web Service Id",
+      title: "Service Id",
       align: "center",
-      dataIndex: "webService",
-      render: (webService) =>
-        webService.serviceId ? webService.serviceId : "N/A",
+      dataIndex: "serviceId",
+      render: (service) => (service ? service : "N/A"),
     },
     {
       key: "3",
-      title: "Service Id",
+      title: "Url",
       align: "center",
-      dataIndex: "webService",
-      render: (webService) => (webService.id ? webService.id : "N/A"),
+      dataIndex: "url",
+      render: (url) => (url ? url : "N/A"),
+    },
+    {
+      key: "3",
+      title: "Description",
+      align: "center",
+      dataIndex: "description",
+      render: (description) => (description ? description : "N/A"),
     },
     {
       title: "Actions",
@@ -58,8 +64,8 @@ const useColumns = (): ColumnsType<TCategoryDataTypes> => {
             onClick={() =>
               dispatch(
                 showModal({
-                  title: "Update Category",
-                  content: <UpdateCategory record={record} />,
+                  title: "Update WebService",
+                  content: <UpdateWebService record={record} />,
                 })
               )
             }

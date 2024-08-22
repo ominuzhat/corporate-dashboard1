@@ -13,7 +13,7 @@ import {
   setMessage,
 } from "../../../app/features/authSlice";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { TOKEN_NAME } from "../../../utilities/baseQuery";
+import { baseUrl, TOKEN_NAME } from "../../../utilities/baseQuery";
 import { openNotification } from "../../../app/features/notificationSlice";
 import {
   emailValidator,
@@ -39,7 +39,7 @@ const Login: React.FC = () => {
       const verifyEmail = async () => {
         try {
           const response = await axios.post(
-            "https://codecanvas-corporate-server.onrender.com/auth/verify-email",
+            `${baseUrl}/auth/verify-email`,
             {},
             {
               headers: {
@@ -51,12 +51,7 @@ const Login: React.FC = () => {
             enqueueSnackbar(`Verification SuccessFully `, {
               variant: "success",
             });
-
-            console.log(
-              response?.data?.data?.access_token,
-              "response data token"
-            );
-
+            
             const { success }: any = response;
             dispatch(
               loggedIn({
@@ -66,7 +61,7 @@ const Login: React.FC = () => {
             );
             localStorage.setItem(
               TOKEN_NAME,
-              response?.data?.data?.access_token || "aa"
+              response?.data?.data?.access_token || null
             );
      
             // localStorage.setItem(

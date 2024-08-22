@@ -2,17 +2,18 @@ import { Col, Input, Row, Select } from "antd";
 import React from "react";
 import { Form } from "../../../../common/CommonAnt";
 import { useGetWebServiceQuery } from "../../WebService/api/WebServiceEndPoints";
-import { useCreateCategoryMutation } from "../api/CategoryEndPoints";
-import { TCreateCategoryTypes } from "../types/CategoryTypes";
+import { useCreateKmsMutation } from "../api/KmsEndPoints";
+import { TCreateKmsTypes } from "../types/KmsTypes";
+import { useGetUsersQuery } from "../../../Users/api/usersEndpoint";
 
-const CreateCategory = () => {
-  const [create, { isLoading, isSuccess }] = useCreateCategoryMutation();
-  const { data: webServiceData }: any = useGetWebServiceQuery({});
+const CreateKms = () => {
+  const [create, { isLoading, isSuccess }] = useCreateKmsMutation();
+  const { data: userData }: any = useGetUsersQuery({});
 
   const webServiceOptions =
-    webServiceData?.data.map((service: any) => ({
-      value: service.id,
-      label: service.serviceId,
+    userData?.data.map((user: any) => ({
+      value: user.clientId,
+      label: `${user.email} - ${user.clientId}`,
     })) || [];
 
   const onFinish = (values: any): void => {
@@ -23,10 +24,10 @@ const CreateCategory = () => {
     <React.Fragment>
       <Form onFinish={onFinish} isLoading={isLoading} isSuccess={isSuccess}>
         <Row gutter={[10, 10]}>
-          <Col lg={6}>
-            <Form.Item<TCreateCategoryTypes>
+          <Col span={12} lg={12}>
+            <Form.Item<TCreateKmsTypes>
               label="Web Service"
-              name="webService"
+              name="clientId"
               rules={[
                 { required: true, message: "please select a web service" },
               ]}
@@ -44,13 +45,15 @@ const CreateCategory = () => {
               />
             </Form.Item>
           </Col>
-          <Col span={24} lg={24}>
-            <Form.Item<TCreateCategoryTypes>
-              label="name"
-              name="name"
-              rules={[{ required: true, message: "name is required" }]}
+          <Col span={12} lg={12}>
+            <Form.Item<TCreateKmsTypes>
+              label="Expiration Days"
+              name="expirationDays"
+              rules={[
+                { required: true, message: "expiration days is required" },
+              ]}
             >
-              <Input placeholder="name" />
+              <Input placeholder="10" />
             </Form.Item>
           </Col>
         </Row>
@@ -59,4 +62,4 @@ const CreateCategory = () => {
   );
 };
 
-export default CreateCategory;
+export default CreateKms;
