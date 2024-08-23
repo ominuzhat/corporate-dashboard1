@@ -18,4 +18,27 @@ export type TOfficeInfoData = {
   instagram: string;
   facebook: string;
   twitter: string;
+  webService: any;
+};
+
+export type TUpdateOfficeInfoTypes = {
+  webService: any;
+  phone?: string;
+  supportEmail?: string;
+  officialEmail?: string;
+  supportPhone?: string;
+  ownerName?: string;
+  brandName?: string;
+  workingDayAndTime?: string;
+  closedDay?: string;
+  bin?: string;
+  hotline?: string;
+  officeAddress?: string;
+  secondaryOfficeAddress?: string;
+  latitude?: string;
+  longitude?: string;
+  linkedIn?: string;
+  instagram?: string;
+  facebook?: string;
+  twitter?: string;
 };

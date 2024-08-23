@@ -11,6 +11,8 @@ export const TagTypes = {
   OFFICEINFO: "OfficeInfo",
   WEBSERVICE: "WebService",
   KMS: "Kms",
+  BLOG: "Blog",
+  SECTION: "Section",
 } as const;
 
 export type TagType = (typeof TagTypes)[keyof typeof TagTypes];

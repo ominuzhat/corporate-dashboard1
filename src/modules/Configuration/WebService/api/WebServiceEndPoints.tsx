@@ -20,7 +20,7 @@ const webServiceEndpoint = api.injectEndpoints({
 
     singleWebServiceItem: builder.query<ApiResponse<any>, { id: number }>({
       query: ({ id }) => ({
-        url: `/webService/${id}`,
+        url: `/web-service/${id}`,
       }),
       providesTags: [{ type: TagTypes.WEBSERVICE, id: "WebService_ID" }],
     }),

@@ -10,15 +10,15 @@ const CreateCategory = () => {
   const { data: webServiceData }: any = useGetWebServiceQuery({});
 
   const webServiceOptions =
-    webServiceData?.data.map((service: any) => ({
-      value: service.id,
-      label: service.serviceId,
+    webServiceData?.data?.map((service: any) => ({
+      value: service?.id,
+      label: service?.serviceId,
     })) || [];
 
   const onFinish = (values: any): void => {
     create(values);
   };
-
+ 
   return (
     <React.Fragment>
       <Form onFinish={onFinish} isLoading={isLoading} isSuccess={isSuccess}>

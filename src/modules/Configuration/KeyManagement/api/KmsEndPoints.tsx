@@ -19,7 +19,7 @@ const kmsEndpoint = api.injectEndpoints({
 
     singleKmsItem: builder.query<ApiResponse<any>, { id: number }>({
       query: ({ id }) => ({
-        url: `/kms/api-key${id}`,
+        url: `/kms/api-key/${id}`,
       }),
       providesTags: [{ type: TagTypes.KMS, id: "Kms_ID" }],
     }),
@@ -29,7 +29,7 @@ const kmsEndpoint = api.injectEndpoints({
       { id: string }
     >({
       query: ({ id }) => ({
-        url: `/kms/api-key${id}`,
+        url: `/kms/api-key/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: [{ type: TagTypes.KMS, id: "Kms_ID" }],
@@ -55,7 +55,7 @@ const kmsEndpoint = api.injectEndpoints({
       { id: number | undefined; data: TCreateKmsTypes }
     >({
       query: ({ id, data }) => ({
-        url: `/kms/api-key${id}`,
+        url: `/kms/api-key/${id}`,
         method: "PATCH",
         body: data,
       }),

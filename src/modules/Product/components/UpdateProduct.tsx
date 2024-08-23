@@ -48,7 +48,7 @@ const UpdateProduct: React.FC<Props> = React.memo(({ record }) => {
               uid: image.id,
               url: image.image,
               thumbUrl: image.image,
-              name: `Image-${image.id}`, // Optional: Set a name for each image
+              name: `Image-${image.id}`,
             })
           ) || [],
       });

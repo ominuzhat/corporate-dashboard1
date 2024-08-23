@@ -18,16 +18,15 @@ const UpdateCategory: React.FC<Props> = ({ record }) => {
 
   const webServiceOptions =
     webServiceData?.data.map((service: any) => ({
-      value: service.id,
-      label: service.serviceId,
+      value: service?.id,
+      label: service?.serviceId,
     })) || [];
 
   useEffect(() => {
-    form.setFieldsValue({ name: record?.name, webService: record?.webService.id });
+    form.setFieldsValue({ name: record?.name, webService: record?.webService?.id });
   }, [record, form]);
 
   const onFinish = (values: TCategoryDataTypes): void => {
-    console.log(values,"values");
     update({ id: record.id, data: values });
   };
 

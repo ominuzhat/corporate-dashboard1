@@ -55,6 +55,14 @@ import OfficeInfoPage from "../modules/officeInfo/pages/OfficeInfoPage";
 import PrivateRouter from "./PrivateRouter";
 import WebServicePage from "../modules/Configuration/WebService/pages/WebServicePage";
 import KmsPage from "../modules/Configuration/KeyManagement/pages/KmsPage";
+import CategoryView from "../modules/Configuration/Category/pages/CategoryView";
+import WebServiceView from "../modules/Configuration/WebService/pages/WebServiceView";
+import KmsView from "../modules/Configuration/KeyManagement/pages/KmsView";
+import OfficeInfoView from "../modules/officeInfo/pages/OfficeInfoView";
+import BlogPage from "../modules/Blog/pages/BlogPage";
+import BlogView from "../modules/Blog/pages/BlogView";
+import SectionPage from "../modules/GenericSection/Section/pages/SectionPage";
+import SectionView from "../modules/GenericSection/Section/pages/SectionView";
 
 const router = createBrowserRouter([
   {
@@ -84,22 +92,34 @@ const router = createBrowserRouter([
           },
         ],
       },
-
       {
         path: "/officeInfo",
-        element: <OfficeInfoPage />,
+        element: <Accounts />,
         children: [
           {
-            path: "create-passport",
-            element: <CreatePassportManagement />,
+            path: "/officeInfo",
+            element: <OfficeInfoPage />,
           },
           {
-            path: "passport-view/1",
-            element: <ViewPassportManagement />,
+            path: ":officeInfoId",
+            element: <OfficeInfoView />,
           },
         ],
       },
-
+      {
+        path: "/blog",
+        element: <Accounts />,
+        children: [
+          {
+            path: "/blog",
+            element: <BlogPage />,
+          },
+          {
+            path: ":blogId",
+            element: <BlogView />,
+          },
+        ],
+      },
       {
         path: "/passport",
         element: <Accounts />,
@@ -268,17 +288,62 @@ const router = createBrowserRouter([
         path: "/cart",
         element: <CartPages />,
       },
+
       {
         path: "/category",
-        element: <CategoryPage />,
-      },  
+        element: <Accounts />,
+        children: [
+          {
+            path: "/category",
+            element: <CategoryPage />,
+          },
+          {
+            path: ":categoryId",
+            element: <CategoryView />,
+          },
+        ],
+      },
+      {
+        path: "/section",
+        element: <Accounts />,
+        children: [
+          {
+            path: "/section",
+            element: <SectionPage />,
+          },
+          {
+            path: ":sectionId",
+            element: <SectionView />,
+          },
+        ],
+      },
       {
         path: "/web-service",
-        element: <WebServicePage />,
+        element: <Accounts />,
+        children: [
+          {
+            path: "/web-service",
+            element: <WebServicePage />,
+          },
+          {
+            path: ":webServiceId",
+            element: <WebServiceView />,
+          },
+        ],
       },
       {
         path: "/key-management",
-        element: <KmsPage />,
+        element: <Accounts />,
+        children: [
+          {
+            path: "/key-management",
+            element: <KmsPage />,
+          },
+          {
+            path: ":kmsId",
+            element: <KmsView />,
+          },
+        ],
       },
       {
         path: "/employee",

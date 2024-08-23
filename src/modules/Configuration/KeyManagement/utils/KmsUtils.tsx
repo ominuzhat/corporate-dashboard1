@@ -1,5 +1,5 @@
 // useColumns.js
-import { Space } from "antd";
+import { Popconfirm, Space } from "antd";
 import { useDispatch } from "react-redux";
 import type { ColumnsType } from "antd/es/table";
 import { TKmsDataTypes } from "../types/KmsTypes";
@@ -9,6 +9,7 @@ import { showModal } from "../../../../app/features/modalSlice";
 import DeleteButton from "../../../../common/CommonAnt/Button/DeleteButton";
 import UpdateKms from "../components/UpdateKms";
 import moment from "moment";
+import ViewButton from "../../../../common/CommonAnt/Button/ViewButton";
 
 const useColumns = (): ColumnsType<TKmsDataTypes> => {
   const dispatch = useDispatch();
@@ -73,9 +74,16 @@ const useColumns = (): ColumnsType<TKmsDataTypes> => {
               )
             }
           />
-          <DeleteButton onClick={() => handleDelete(record.id)}>
-            Delete
-          </DeleteButton>
+          <ViewButton to={`${record.id}`} />
+          <Popconfirm
+            title="Delete the task"
+            description="Are you sure to delete this task?"
+            okText="Yes"
+            cancelText="No"
+            onConfirm={() => handleDelete(record.id)}
+          >
+            <DeleteButton>Delete</DeleteButton>
+          </Popconfirm>
         </Space>
       ),
     },

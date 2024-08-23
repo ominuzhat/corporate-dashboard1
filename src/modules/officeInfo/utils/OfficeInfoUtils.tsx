@@ -1,13 +1,15 @@
-import { Space } from "antd";
-import { useDispatch } from "react-redux";
+import { Popconfirm, Space } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import DeleteButton from "../../../common/CommonAnt/Button/DeleteButton";
 import ViewButton from "../../../common/CommonAnt/Button/ViewButton";
 import { useDeleteOfficeInfoMutation } from "../api/OfficeInfoEndPoints";
+import UpdateOfficeInfo from "../components/UpdateOfficeInfo";
+import { showModal } from "../../../app/features/modalSlice";
+import EditButton from "../../../common/CommonAnt/Button/EditButton";
+import { useDispatch } from "react-redux";
 
 const useOfficeInfoColumns = (): ColumnsType<any> => {
   const dispatch = useDispatch();
-
   const [deleteCartItem] = useDeleteOfficeInfoMutation();
 
   const handleDelete = async (id: any) => {
@@ -26,6 +28,14 @@ const useOfficeInfoColumns = (): ColumnsType<any> => {
     //   align: "center",
     //   render: (_text, _record, index) => index + 1,
     // },
+    {
+      key: "34",
+      title: "Service Id",
+      dataIndex: "webService",
+      align: "center",
+      render: (webService) =>
+        webService?.serviceId ? webService?.serviceId : "N/A",
+    },
     {
       key: "1",
       title: "Owner Name",
@@ -88,20 +98,26 @@ const useOfficeInfoColumns = (): ColumnsType<any> => {
       align: "center",
       render: (record) => (
         <Space>
-          {/* <EditButton
+          <EditButton
             onClick={() =>
               dispatch(
                 showModal({
-                  title: "Update Product",
-                  content: <UpdateProduct record={record} />,
+                  title: "Update Category",
+                  content: <UpdateOfficeInfo record={record} />,
                 })
               )
             }
-          /> */}
-          <ViewButton to={`product-view/${record.id}`} />
-          <DeleteButton onClick={() => handleDelete(record.id)}>
-            Delete
-          </DeleteButton>
+          />
+          <ViewButton to={`${record.id}`} />
+          <Popconfirm
+            title="Delete the task"
+            description="Are you sure to delete this task?"
+            okText="Yes"
+            cancelText="No"
+            onConfirm={() => handleDelete(record.id)}
+          >
+            <DeleteButton>Delete</DeleteButton>
+          </Popconfirm>
         </Space>
       ),
     },

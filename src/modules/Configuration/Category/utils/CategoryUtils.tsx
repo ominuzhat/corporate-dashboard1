@@ -1,13 +1,14 @@
 // useColumns.js
-import { Space } from "antd";
-import { useDispatch } from "react-redux";
+import { Popconfirm, Space } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { TCategoryDataTypes } from "../types/CategoryTypes";
-import { useDeleteCategoryItemMutation } from "../api/CategoryEndPoints";
-import EditButton from "../../../../common/CommonAnt/Button/EditButton";
+import { useDispatch } from "react-redux";
 import { showModal } from "../../../../app/features/modalSlice";
 import DeleteButton from "../../../../common/CommonAnt/Button/DeleteButton";
+import EditButton from "../../../../common/CommonAnt/Button/EditButton";
+import ViewButton from "../../../../common/CommonAnt/Button/ViewButton";
+import { useDeleteCategoryItemMutation } from "../api/CategoryEndPoints";
 import UpdateCategory from "../components/UpdateCategory";
+import { TCategoryDataTypes } from "../types/CategoryTypes";
 
 const useColumns = (): ColumnsType<TCategoryDataTypes> => {
   const dispatch = useDispatch();
@@ -40,14 +41,14 @@ const useColumns = (): ColumnsType<TCategoryDataTypes> => {
       align: "center",
       dataIndex: "webService",
       render: (webService) =>
-        webService.serviceId ? webService.serviceId : "N/A",
+        webService?.serviceId ? webService?.serviceId : "N/A",
     },
     {
       key: "3",
       title: "Service Id",
       align: "center",
       dataIndex: "webService",
-      render: (webService) => (webService.id ? webService.id : "N/A"),
+      render: (webService) => (webService?.id ? webService?.id : "N/A"),
     },
     {
       title: "Actions",
@@ -64,13 +65,19 @@ const useColumns = (): ColumnsType<TCategoryDataTypes> => {
               )
             }
           />
-          <DeleteButton onClick={() => handleDelete(record.id)}>
-            Delete
-          </DeleteButton>
+          <ViewButton to={`${record.id}`} />
+          <Popconfirm
+            title="Delete the task"
+            description="Are you sure to delete this task?"
+            okText="Yes"
+            cancelText="No"
+            onConfirm={() => handleDelete(record.id)}
+          >
+            <DeleteButton>Delete</DeleteButton>
+          </Popconfirm>
         </Space>
       ),
     },
-    // Add other column definitions here
   ];
 };
 

@@ -5,7 +5,7 @@ import {
   TKmsDataTypes,
   TUpdateKmsTypes,
 } from "../types/KmsTypes";
-import { useGetWebServiceQuery } from "../../WebService/api/WebServiceEndPoints";
+import { useGetUsersQuery } from "../../../Users/api/usersEndpoint";
 
 interface Props {
   record: TKmsDataTypes;
@@ -13,13 +13,14 @@ interface Props {
 
 const UpdateKms: React.FC<Props> = ({ record }) => {
   const [update, { isLoading }] = useUpdateKmsMutation();
-  const { data: webServiceData }: any = useGetWebServiceQuery({});
+  const { data: userData }: any = useGetUsersQuery({});
+
   const [form] = AntForm.useForm();
 
-  const webServiceOptions =
-    webServiceData?.data.map((service: any) => ({
-      value: service.id,
-      label: service.serviceId,
+  const userOptions =
+    userData?.data.map((user: any) => ({
+      value: user.clientId,
+      label: `${user.email} - ${user.clientId}`,
     })) || [];
 
   useEffect(() => {
@@ -36,32 +37,32 @@ const UpdateKms: React.FC<Props> = ({ record }) => {
         <Row gutter={[10, 10]}>
         <Col lg={6}>
             <AntForm.Item<TUpdateKmsTypes>
-              label="Web Service"
-              name="expirationDays"
+              label="Client Id"
+              name="clientId"
               rules={[
-                { required: true, message: "please select a web service" },
+                { required: true, message: "please select a Client Id" },
               ]}
             >
               <Select
                 showSearch
-                placeholder="Select Web Service"
+                placeholder="Select Client Id"
                 filterOption={(input, option) =>
                   (option?.label ?? "")
                     .toString()
                     .toLowerCase()
                     .includes(input.toLowerCase())
                 }
-                options={webServiceOptions}
+                options={userOptions}
               />
             </AntForm.Item>
           </Col>
-          <Col span={24} lg={12}>
+          <Col span={6} lg={6}>
             <AntForm.Item<TUpdateKmsTypes>
-              label="Name"
-              name="clientId"
-              rules={[{ required: true, message: "Name is required" }]}
+              label="Expiration Days"
+              name="expirationDays"
+              rules={[{ required: true, message: "expiration days is required" }]}
             >
-              <Input placeholder="Name" />
+              <Input placeholder="10" />
             </AntForm.Item>
           </Col>
         </Row>

@@ -1,7 +1,6 @@
 import { Col, Input, Row, Select } from "antd";
 import React from "react";
 import { Form } from "../../../../common/CommonAnt";
-import { useGetWebServiceQuery } from "../../WebService/api/WebServiceEndPoints";
 import { useCreateKmsMutation } from "../api/KmsEndPoints";
 import { TCreateKmsTypes } from "../types/KmsTypes";
 import { useGetUsersQuery } from "../../../Users/api/usersEndpoint";
@@ -10,7 +9,7 @@ const CreateKms = () => {
   const [create, { isLoading, isSuccess }] = useCreateKmsMutation();
   const { data: userData }: any = useGetUsersQuery({});
 
-  const webServiceOptions =
+  const userOptions =
     userData?.data.map((user: any) => ({
       value: user.clientId,
       label: `${user.email} - ${user.clientId}`,
@@ -41,7 +40,7 @@ const CreateKms = () => {
                     .toLowerCase()
                     .includes(input.toLowerCase())
                 }
-                options={webServiceOptions}
+                options={userOptions}
               />
             </Form.Item>
           </Col>

@@ -1,18 +1,18 @@
 // useColumns.js
 import { Popconfirm, Space } from "antd";
-import { useDispatch } from "react-redux";
 import type { ColumnsType } from "antd/es/table";
-import { TWebServiceDataTypes } from "../types/WebServiceTypes";
-import { useDeleteWebServiceItemMutation } from "../api/WebServiceEndPoints";
-import EditButton from "../../../../common/CommonAnt/Button/EditButton";
-import { showModal } from "../../../../app/features/modalSlice";
-import DeleteButton from "../../../../common/CommonAnt/Button/DeleteButton";
-import UpdateWebService from "../components/UpdateWebService";
-import ViewButton from "../../../../common/CommonAnt/Button/ViewButton";
+import { useDispatch } from "react-redux";
+import { showModal } from "../../../app/features/modalSlice";
+import DeleteButton from "../../../common/CommonAnt/Button/DeleteButton";
+import EditButton from "../../../common/CommonAnt/Button/EditButton";
+import ViewButton from "../../../common/CommonAnt/Button/ViewButton";
+import { useDeleteBlogItemMutation } from "../api/BlogEndPoints";
+import UpdateBlog from "../components/UpdateBlog";
+import { TBlogDataTypes } from "../types/BlogTypes";
 
-const useColumns = (): ColumnsType<TWebServiceDataTypes> => {
+const useColumns = (): ColumnsType<TBlogDataTypes> => {
   const dispatch = useDispatch();
-  const [deleteCartItem] = useDeleteWebServiceItemMutation();
+  const [deleteCartItem] = useDeleteBlogItemMutation();
   const handleDelete = async (id: any) => {
     try {
       await deleteCartItem({ id }).unwrap();
@@ -30,31 +30,32 @@ const useColumns = (): ColumnsType<TWebServiceDataTypes> => {
     },
     {
       key: "1",
-      title: "Name",
+      title: "Web Service Id",
       align: "center",
-      dataIndex: "name",
-      render: (title) => (title ? title : "N/A"),
+      dataIndex: "webService",
+      render: (webService) =>
+        webService?.serviceId ? webService?.serviceId : "N/A",
     },
     {
       key: "2",
-      title: "Service Id",
+      title: "Title",
       align: "center",
-      dataIndex: "serviceId",
-      render: (service) => (service ? service : "N/A"),
+      dataIndex: "title",
+      render: (title) => (title ? title : "N/A"),
     },
     {
       key: "3",
-      title: "Url",
+      title: "category",
       align: "center",
-      dataIndex: "url",
-      render: (url) => (url ? url : "N/A"),
+      dataIndex: "category",
+      render: (category) => (category?.name ? category?.name : "N/A"),
     },
     {
       key: "3",
-      title: "Description",
+      title: "views",
       align: "center",
-      dataIndex: "description",
-      render: (description) => (description ? description : "N/A"),
+      dataIndex: "views",
+      render: (views) => views,
     },
     {
       title: "Actions",
@@ -65,8 +66,8 @@ const useColumns = (): ColumnsType<TWebServiceDataTypes> => {
             onClick={() =>
               dispatch(
                 showModal({
-                  title: "Update WebService",
-                  content: <UpdateWebService record={record} />,
+                  title: "Update Blog",
+                  content: <UpdateBlog record={record} />,
                 })
               )
             }
@@ -84,7 +85,6 @@ const useColumns = (): ColumnsType<TWebServiceDataTypes> => {
         </Space>
       ),
     },
-    // Add other column definitions here
   ];
 };
 

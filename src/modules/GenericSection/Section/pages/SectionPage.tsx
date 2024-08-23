@@ -1,17 +1,17 @@
-import { useDispatch, useSelector } from "react-redux";
-import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import { Button, Card, Col, Row } from "antd";
-import { SearchComponent } from "../../../common/CommonAnt/CommonSearch/CommonSearch";
-import { RootState } from "../../../app/store";
-import { Table } from "../../../common/CommonAnt";
+import BreadCrumb from "../../../../common/BreadCrumb/BreadCrumb";
 import { useState } from "react";
-import { useGetOfficeInfoQuery } from "../api/OfficeInfoEndPoints";
-import useOfficeInfoColumns from "../utils/OfficeInfoUtils";
-import { showModal } from "../../../app/features/modalSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { showModal } from "../../../../app/features/modalSlice";
+import { SearchComponent } from "../../../../common/CommonAnt/CommonSearch/CommonSearch";
+import { RootState } from "../../../../app/store";
 import { PlusOutlined } from "@ant-design/icons";
-import CreateOfficeInfo from "../components/CreateOfficeInfo";
+import useColumns from "../utils/SectionUtils";
+import { useGetSectionQuery } from "../api/SectionEndPoints";
+import CreateSection from "../components/CreateSection";
+import { Table } from "../../../../common/CommonAnt";
 
-const OfficeInfoPage = () => {
+const SectionPage = () => {
   const [search, setSearch] = useState("");
   const dispatch = useDispatch();
   const filter = useSelector((state: RootState) => ({
@@ -19,7 +19,9 @@ const OfficeInfoPage = () => {
     keyword: search,
   }));
 
-  const { data: oficeInfoData, isLoading } = useGetOfficeInfoQuery(filter);
+  const { data: sectionData, isLoading } = useGetSectionQuery(filter);
+
+  console.log(sectionData)
 
   return (
     <div className="space-y-5">
@@ -34,21 +36,21 @@ const OfficeInfoPage = () => {
               onClick={() =>
                 dispatch(
                   showModal({
-                    title: "Add Office Info",
-                    content: <CreateOfficeInfo />,
+                    title: "Add Section",
+                    content: <CreateSection />,
                   })
                 )
               }
               icon={<PlusOutlined />}
               className="w-full"
             >
-              Add Office Info
+              Add Section
             </Button>
           </Col>
           <Col lg={6}>
             <SearchComponent
               onSearch={(value) => setSearch(value)}
-              placeholder="Office Info"
+              placeholder="Enter Your Section Name"
             />
           </Col>
         </Row>
@@ -56,12 +58,12 @@ const OfficeInfoPage = () => {
 
       <Table
         loading={isLoading}
-        total={oficeInfoData?.total || 0}
-        dataSource={oficeInfoData?.data || []}
-        columns={useOfficeInfoColumns()}
+        total={sectionData?.total || 0}
+        dataSource={sectionData?.data || []}
+        columns={useColumns()}
       />
     </div>
   );
 };
 
-export default OfficeInfoPage;
+export default SectionPage;

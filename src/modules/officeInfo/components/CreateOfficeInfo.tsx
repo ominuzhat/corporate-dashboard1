@@ -1,30 +1,21 @@
-import { Card, Col, DatePicker, Input, Row, Select } from "antd";
+import { Card, Col, Input, Row, Select } from "antd";
 import { Form } from "../../../common/CommonAnt";
 import { useCreateOfficeInfoMutation } from "../api/OfficeInfoEndPoints";
 import { TOfficeInfoData } from "../types/officeInfoTypes";
-import moment from "moment";
-import { CalendarOutlined } from "@ant-design/icons";
+import { useGetWebServiceQuery } from "../../Configuration/WebService/api/WebServiceEndPoints";
+import { TCreateCategoryTypes } from "../../Configuration/Category/types/CategoryTypes";
 
 const CreateOfficeInfo = () => {
   const [create, { isLoading, isSuccess }] = useCreateOfficeInfoMutation();
+  const { data: webServiceData }: any = useGetWebServiceQuery({});
+
+  const webServiceOptions =
+    webServiceData?.data?.map((service: any) => ({
+      value: service?.id,
+      label: service?.serviceId,
+    })) || [];
 
   const onFinish = (values: any): void => {
-    console.log("va", values);
-
-    // const formData: FormData = new FormData();
-
-    // Object.entries(values).forEach(([key, value]) => {
-    //   if (Array.isArray(value)) {
-    //     value.forEach((file) => {
-    //       if (file?.originFileObj) {
-    //         formData.append(key, file.originFileObj);
-    //       }
-    //     });
-    //   } else {
-    //     formData.append(key, value as string | Blob);
-    //   }
-    // });
-
     create(values);
   };
 
@@ -32,6 +23,27 @@ const CreateOfficeInfo = () => {
     <div>
       <Form onFinish={onFinish} isLoading={isLoading} isSuccess={isSuccess}>
         <Row gutter={16}>
+        <Col lg={6}>
+            <Form.Item<TCreateCategoryTypes>
+              label="Web Service"
+              name="webService"
+              rules={[
+                { required: true, message: "please select a web service" },
+              ]}
+            >
+              <Select
+                showSearch
+                placeholder="Select Web Service"
+                filterOption={(input, option) =>
+                  (option?.label ?? "")
+                    .toString()
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
+                options={webServiceOptions}
+              />
+            </Form.Item>
+          </Col>
           <Col lg={8}>
             <Form.Item<TOfficeInfoData>
               label="Owner Name"
@@ -159,71 +171,6 @@ const CreateOfficeInfo = () => {
               <Input placeholder="Mon to Sat: 8am-9pm" />
             </Form.Item>
           </Col>
-          {/* <Col lg={24}>
-            <Form.Item<TOfficeInfoData>
-              label="Images"
-              name="images"
-              rules={[{ required: true, message: "Product Images !" }]}
-            >
-              <Upload
-                // action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
-                listType="picture-card"
-                fileList={fileList}
-                onPreview={handlePreview}
-                accept=".png,.jpeg,.doc"
-                onChange={handleChange}
-                beforeUpload={(file) => {
-                  // Handle file upload here if needed
-                  // For example, you can add validation or processing here
-                  return false; // Prevent the default upload behavior
-                }}
-              >
-                {fileList.length >= 20 ? null : uploadButton}
-              </Upload>
-              {previewImage && (
-                <Image
-                  wrapperStyle={{ display: "none" }}
-                  preview={{
-                    visible: previewOpen,
-                    onVisibleChange: (visible) => setPreviewOpen(visible),
-                    afterOpenChange: (visible) =>
-                      !visible && setPreviewImage(""),
-                  }}
-                  src={previewImage}
-                />
-              )}
-            </Form.Item>
-          </Col> */}
-          {/* <Form.Item
-            label="Product Images"
-            name="images"
-            valuePropName="fileList"
-            getValueFromEvent={(e) => {
-              if (Array.isArray(e)) {
-                return e;
-              }
-              return e?.fileList;
-            }}
-            rules={[{ required: true, message: "Product Images !" }]}
-          >
-            <Upload
-              beforeUpload={() => false}
-              maxCount={20}
-              listType="picture-card"
-              onPreview={handlePreview}
-              showUploadList={{ showRemoveIcon: true }}
-            >
-              <PlusOutlined />
-            </Upload>
-          </Form.Item>
-          <Modal
-            visible={previewVisible}
-            title={previewTitle}
-            footer={null}
-            onCancel={handleCancel}
-          >
-            <img alt="example" style={{ width: "100%" }} src={previewImage} />
-          </Modal> */}
         </Row>
         <Card>
           <Row gutter={[16, 8]}>
