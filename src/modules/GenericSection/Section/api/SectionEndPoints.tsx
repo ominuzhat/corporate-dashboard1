@@ -8,7 +8,7 @@ import {
   TCreateSectionTypes,
 } from "../types/SectionTypes";
 
-const blogEndpoint = api.injectEndpoints({
+const sectionEndpoint = api.injectEndpoints({
   endpoints: (builder) => ({
     getSection: builder.query<ApiResponse<TSectionDataTypes[]>, FilterTypes>({
       query: (params) => ({
@@ -18,14 +18,14 @@ const blogEndpoint = api.injectEndpoints({
       providesTags: [{ type: TagTypes.SECTION, id: "Section_ID" }],
     }),
 
-    singleSectionItem: builder.query<ApiResponse<any>, { id: number }>({
+    singleSection: builder.query<ApiResponse<any>, { id: number }>({
       query: ({ id }) => ({
         url: `/core/generic-page-section/${id}`,
       }),
       providesTags: [{ type: TagTypes.SECTION, id: "Section_ID" }],
     }),
 
-    deleteSectionItem: builder.mutation<
+    deleteSection: builder.mutation<
       ApiResponse<TSectionDataTypes>,
       { id: string }
     >({
@@ -69,9 +69,9 @@ const blogEndpoint = api.injectEndpoints({
 });
 
 export const {
-  useDeleteSectionItemMutation,
+  useDeleteSectionMutation,
   useGetSectionQuery,
-  useSingleSectionItemQuery,
+  useSingleSectionQuery,
   useCreateSectionMutation,
   useUpdateSectionMutation,
-} = blogEndpoint;
+} = sectionEndpoint;

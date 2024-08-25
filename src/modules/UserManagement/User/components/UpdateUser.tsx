@@ -7,61 +7,59 @@ import {
   Form as AntForm,
   Button,
   Upload,
-  Switch,
-  message,
 } from "antd";
 import React, { useState, useEffect } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import {
-  useSingleSectionQuery,
-  useUpdateSectionMutation,
-} from "../api/SectionEndPoints";
-import { useGetWebServiceQuery } from "../../../Configuration/WebService/api/WebServiceEndPoints";
+  useSingleUserQuery,
+  useUpdateUserMutation,
+} from "../api/UserEndPoints";
+import { TUpdateUserTypes } from "../types/UserTypes";
+import { useGetRoleQuery } from "../../Role/api/RoleEndPoints";
 
 interface Props {
   record: any;
 }
 
-const UpdateSection: React.FC<Props> = React.memo(({ record }) => {
-  const { data: singleSection } = useSingleSectionQuery({ id: record?.id });
-  const { data: webServiceData }: any = useGetWebServiceQuery({});
-  const [update, { isLoading }] = useUpdateSectionMutation();
+const UpdateUser: React.FC<Props> = React.memo(({ record }) => {
+  const { data: singleUser } = useSingleUserQuery({ id: record?.id });
+  const [update, { isLoading }] = useUpdateUserMutation();
   const [form] = AntForm.useForm();
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
-  const [fileList, setFileList] = useState<any[]>([]);
+  const { data: roleData }: any = useGetRoleQuery({});
 
-  const webServiceOptions =
-    webServiceData?.data.map((service: any) => ({
-      value: service?.id,
-      label: service?.serviceId,
+  const roleOptions =
+    roleData?.data?.map((role: any) => ({
+      value: role?.id,
+      label: role?.name,
     })) || [];
 
   useEffect(() => {
-    if (singleSection) {
+    if (singleUser) {
       form.setFieldsValue({
-        title: singleSection.data.title || "",
-        subtitle: singleSection.data.subtitle || "",
-        sectionName: singleSection.data.sectionName || "",
-        description: singleSection.data.description || "",
-        icon: singleSection.data.icon || "",
-        webService: singleSection.data?.webService?.id,
-        keyPoints: singleSection.data.keyPoints || [],
-        image: singleSection.data.image
+        firstName: singleUser.data.firstName || "",
+        lastName: singleUser.data.lastName || "",
+        phone: singleUser.data.details.phone || "",
+        address: singleUser.data.details.address || "",
+        gender: singleUser.data.details.gender || "",
+        role: singleUser.data?.role?.name || null,
+        keyPoints: singleUser.data.keyPoints || [],
+        image: singleUser.data.details.image
           ? [
               {
                 uid: "-1",
                 name: "Current Image",
                 status: "done",
-                url: singleSection.data.image,
-                thumbUrl: singleSection.data.image,
+                url: singleUser.data.details.image,
+                thumbUrl: singleUser.data.details.image,
               },
             ]
           : [],
       });
     }
-  }, [singleSection, form]);
+  }, [singleUser, form]);
 
   const handlePreview = async (file: any) => {
     setPreviewImage(file.thumbUrl || file.url);
@@ -74,8 +72,7 @@ const UpdateSection: React.FC<Props> = React.memo(({ record }) => {
   const handleCancel = () => setPreviewVisible(false);
 
   const handleUploadChange = ({ fileList }: any) => {
-    setFileList(fileList);
-    form.setFieldsValue({ image: fileList }); // Ensure form state is updated
+    form.setFieldsValue({ image: fileList });
   };
 
   const onFinish = (values: any): void => {
@@ -83,9 +80,7 @@ const UpdateSection: React.FC<Props> = React.memo(({ record }) => {
 
     Object.entries(values).forEach(([key, value]) => {
       if (Array.isArray(value)) {
-        if (key === "keyPoints") {
-          formData.append(key, JSON.stringify(value));
-        } else if (key === "image") {
+        if (key === "image") {
           if (value.some((file) => file.originFileObj)) {
             value.forEach((file) => {
               if (file?.originFileObj) {
@@ -93,7 +88,6 @@ const UpdateSection: React.FC<Props> = React.memo(({ record }) => {
               }
             });
           } else if (value.length === 1) {
-            // If there's an existing image and no new upload, append the URL
             formData.append(key, value[0].url || value[0].thumbUrl);
           }
         }
@@ -109,55 +103,85 @@ const UpdateSection: React.FC<Props> = React.memo(({ record }) => {
     <div>
       <AntForm form={form} layout="vertical" onFinish={onFinish}>
         <Row gutter={16}>
+          <Col span={12} lg={12}>
+            <AntForm.Item<TUpdateUserTypes>
+              label="First Name"
+              name="firstName"
+              rules={[{ required: true, message: "First Name is required" }]}
+            >
+              <Input placeholder="first name" />
+            </AntForm.Item>
+          </Col>
+          <Col span={12} lg={12}>
+            <AntForm.Item<TUpdateUserTypes>
+              label="Last Name"
+              name="lastName"
+              rules={[{ required: true, message: "Last Name is required" }]}
+            >
+              <Input placeholder="last name" />
+            </AntForm.Item>
+          </Col>
           <Col lg={6}>
             <AntForm.Item
-              label="Web Service"
-              name="webService"
-              rules={[
-                { required: true, message: "please select a web service" },
-              ]}
+              label="Role"
+              name="role"
+              rules={[{ required: true, message: "please select a Role" }]}
             >
               <Select
                 showSearch
-                placeholder="Select Web Service"
+                placeholder="Select Role"
                 filterOption={(input, option) =>
                   (option?.label ?? "")
                     .toString()
                     .toLowerCase()
                     .includes(input.toLowerCase())
                 }
-                options={webServiceOptions}
+                options={roleOptions}
               />
             </AntForm.Item>
           </Col>
-          <Col lg={8}>
-            <AntForm.Item label="Title" name="title">
-              <Input placeholder="Section Title." />
+          <Col lg={12}>
+            <AntForm.Item<TUpdateUserTypes>
+              label="Phone No"
+              name="phone"
+              rules={[{ required: true, message: "Phone is required" }]}
+            >
+              <Input addonBefore="+088" placeholder="Phone No" type="text" />
             </AntForm.Item>
           </Col>
-          <Col lg={8}>
-            <AntForm.Item label="Subtitle" name="subtitle">
-              <Input placeholder="Section Subtitle." />
-            </AntForm.Item>
-          </Col>
-          <Col lg={8}>
-            <AntForm.Item label="Description" name="description">
-              <Input placeholder="Description" />
-            </AntForm.Item>
-          </Col>
-          <Col lg={16}>
-            <AntForm.Item label="Key Points" name="keyPoints">
+          <Col span={6} lg={6}>
+            <AntForm.Item<TUpdateUserTypes>
+              label="Gender"
+              name="gender"
+              rules={[{ required: true, message: "Please input your Date!" }]}
+            >
               <Select
-                mode="tags"
-                style={{ width: "100%" }}
-                placeholder="Add key points"
-                tokenSeparators={[","]}
+                showSearch
+                placeholder="Gender"
+                filterOption={(input, option) =>
+                  (option?.label ?? "")
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
+                options={[
+                  { value: "Male", label: "Male" },
+                  { value: "Female", label: "Female" },
+                ]}
               />
+            </AntForm.Item>
+          </Col>
+          <Col span={24} lg={24}>
+            <AntForm.Item<TUpdateUserTypes>
+              label="Address"
+              name="address"
+              rules={[{ required: true, message: "Address is required" }]}
+            >
+              <Input.TextArea placeholder="Description" rows={4} />
             </AntForm.Item>
           </Col>
           <Col lg={16}>
             <AntForm.Item
-              label="Section Image"
+              label="User Image"
               name="image"
               valuePropName="fileList"
               getValueFromEvent={(e) =>
@@ -195,4 +219,4 @@ const UpdateSection: React.FC<Props> = React.memo(({ record }) => {
   );
 });
 
-export default UpdateSection;
+export default UpdateUser;

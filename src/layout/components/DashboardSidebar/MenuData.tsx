@@ -29,21 +29,9 @@ const MenuData: React.FC = () => {
       icon: <Iconify name="mdi:work" style={iconStyle} />,
     },
     {
-      key: "/",
-      label: "Generic Section",
-      icon: <Iconify name="hugeicons:configuration-01" style={iconStyle} />,
-      children: [
-        {
-          label: <Link to="/section">Section</Link>,
-          icon: <Iconify name="tdesign:course" style={subIconStyle} />,
-          key: "/section",
-        },
-        {
-          label: <Link to="/section-item">Section Item</Link>,
-          icon: <Iconify name="tdesign:course" style={subIconStyle} />,
-          key: "/section-item",
-        },
-      ],
+      key: "/our-service",
+      label: <Link to="/our-service">Our Service</Link>,
+      icon: <Iconify name="mdi:work" style={iconStyle} />,
     },
     {
       key: "/officeInfo",
@@ -51,9 +39,43 @@ const MenuData: React.FC = () => {
       icon: <Iconify name="mdi:work" style={iconStyle} />,
     },
     {
-      key: "/",
+      key: "/section",
+      label: "Generic Section",
+      icon: <Iconify name="mdi:work" style={iconStyle} />,
+      children: [
+        {
+          label: <Link to="/section">Section</Link>,
+          icon: <Iconify name="mdi:work" style={subIconStyle} />,
+          key: "/section",
+        },
+        {
+          label: <Link to="/section-item">Section Item</Link>,
+          icon: <Iconify name="mdi:work" style={subIconStyle} />,
+          key: "/section-item",
+        },
+      ],
+    },
+    {
+      key: "/user-management",
+      label: "User Management",
+      icon: <Iconify name="mdi:work" style={iconStyle} />,
+      children: [
+        {
+          label: <Link to="/user">User</Link>,
+          icon: <Iconify name="mdi:work" style={subIconStyle} />,
+          key: "/user",
+        },
+        {
+          label: <Link to="/role">Role</Link>,
+          icon: <Iconify name="mdi:work" style={subIconStyle} />,
+          key: "/role",
+        },
+      ],
+    },
+    {
+      key: "/configuration",
       label: "Configuration",
-      icon: <Iconify name="hugeicons:configuration-01" style={iconStyle} />,
+      icon: <Iconify name="mdi:work" style={iconStyle} />,
       children: [
         {
           label: <Link to="/category">Category</Link>,
@@ -92,8 +114,6 @@ const MenuData: React.FC = () => {
 
       <br />
       <br />
-
-      {/* <SidebarButtom /> */}
     </div>
   );
 };

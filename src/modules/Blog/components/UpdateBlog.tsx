@@ -24,10 +24,10 @@ interface Props {
 }
 
 const UpdateBlog: React.FC<Props> = React.memo(({ record }) => {
+  const [form] = AntForm.useForm();
   const { data: singleBlog } = useSingleBlogItemQuery({ id: record?.id });
   const { data: categoryData } = useGetCategoryQuery({});
   const [update, { isLoading }] = useUpdateBlogMutation();
-  const [form] = AntForm.useForm();
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
@@ -69,6 +69,7 @@ const UpdateBlog: React.FC<Props> = React.memo(({ record }) => {
     setRemovedImageIds((prev) => [...prev, file.uid]);
     message.info(`Removed ${file.name}`);
   };
+  
   const onFinish = (values: any): void => {
     const formData: any = new FormData();
     Object.entries(values).forEach(([key, value]) => {

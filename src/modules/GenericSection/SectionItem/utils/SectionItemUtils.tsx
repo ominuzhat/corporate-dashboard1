@@ -2,17 +2,17 @@
 import { Popconfirm, Space } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { useDispatch } from "react-redux";
-import { showModal } from "../../../app/features/modalSlice";
-import DeleteButton from "../../../common/CommonAnt/Button/DeleteButton";
-import EditButton from "../../../common/CommonAnt/Button/EditButton";
-import ViewButton from "../../../common/CommonAnt/Button/ViewButton";
-import { useDeleteBlogItemMutation } from "../api/BlogEndPoints";
-import UpdateBlog from "../components/UpdateBlog";
-import { TBlogDataTypes } from "../types/BlogTypes";
+import { showModal } from "../../../../app/features/modalSlice";
+import DeleteButton from "../../../../common/CommonAnt/Button/DeleteButton";
+import EditButton from "../../../../common/CommonAnt/Button/EditButton";
+import ViewButton from "../../../../common/CommonAnt/Button/ViewButton";
+import { useDeleteSectionItemMutation } from "../api/SectionItemEndPoints";
+import UpdateSectionItem from "../components/UpdateSectionItem";
+import { TSectionItemDataTypes } from "../types/SectionItemTypes";
 
-const useColumns = (): ColumnsType<TBlogDataTypes> => {
+const useColumns = (): ColumnsType<TSectionItemDataTypes> => {
   const dispatch = useDispatch();
-  const [deleteCartItem] = useDeleteBlogItemMutation();
+  const [deleteCartItem] = useDeleteSectionItemMutation();
   const handleDelete = async (id: any) => {
     try {
       await deleteCartItem({ id }).unwrap();
@@ -29,34 +29,19 @@ const useColumns = (): ColumnsType<TBlogDataTypes> => {
       render: (_text, _record, index) => index + 1,
     },
     {
-      key: "1",
-      title: "Web Service Id",
+      key: "3",
+      title: "Section",
       align: "center",
-      dataIndex: "webService",
-      render: (webService) =>
-        webService?.serviceId ? webService?.serviceId : "N/A",
-    },
+      dataIndex: "genericPageSection",
+      render: (genericPageSection) => (genericPageSection?.webService?.serviceId ? genericPageSection?.webService?.serviceId + " - " + genericPageSection.sectionName : "N/A"),
+    },   
     {
       key: "2",
       title: "Title",
       align: "center",
       dataIndex: "title",
       render: (title) => (title ? title : "N/A"),
-    },
-    {
-      key: "3",
-      title: "category",
-      align: "center",
-      dataIndex: "category",
-      render: (category) => (category?.name ? category?.name : "N/A"),
-    },
-    {
-      key: "3",
-      title: "views",
-      align: "center",
-      dataIndex: "views",
-      render: (views) => views,
-    },
+    }, 
     {
       title: "Actions",
       align: "center",
@@ -66,8 +51,8 @@ const useColumns = (): ColumnsType<TBlogDataTypes> => {
             onClick={() =>
               dispatch(
                 showModal({
-                  title: "Update Blog",
-                  content: <UpdateBlog record={record} />,
+                  title: "Update SectionItem",
+                  content: <UpdateSectionItem record={record} />,
                 })
               )
             }

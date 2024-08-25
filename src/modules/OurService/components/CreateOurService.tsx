@@ -1,16 +1,24 @@
-import { Col, Input, Row, Select, Checkbox, Upload, Modal } from "antd";
+import { Col, Input, Row, Select, Checkbox, Upload, Modal, Button } from "antd";
 import React, { useState } from "react";
 import { Form } from "../../../common/CommonAnt";
-import { useCreateBlogMutation } from "../api/BlogEndPoints";
-import { TCreateBlogTypes } from "../types/BlogTypes";
+import { useCreateOurServiceMutation } from "../api/OurServiceEndPoints";
+import {
+  TCreateOurServiceTypes,
+  TOurServiceFAQ,
+} from "../types/OurServiceTypes";
 import { useGetWebServiceQuery } from "../../Configuration/WebService/api/WebServiceEndPoints";
-import { PlusOutlined } from "@ant-design/icons";
 import { useGetCategoryQuery } from "../../Configuration/Category/api/CategoryEndPoints";
+import { PlusOutlined, MinusCircleOutlined } from "@ant-design/icons";
 
-const CreateBlog = () => {
-  const [create, { isLoading, isSuccess }] = useCreateBlogMutation();
+const CreateOurService = () => {
+  const [create, { isLoading, isSuccess }] = useCreateOurServiceMutation();
   const { data: webServiceData }: any = useGetWebServiceQuery({});
   const { data: categoryData }: any = useGetCategoryQuery({});
+
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [previewTitle, setPreviewTitle] = useState("");
+  const [faqs, setFaqs] = useState<TOurServiceFAQ[]>([]);
 
   const webServiceOptions =
     webServiceData?.data?.map((service: any) => ({
@@ -24,10 +32,6 @@ const CreateBlog = () => {
       label: service?.name,
     })) || [];
 
-  const [previewVisible, setPreviewVisible] = useState(false);
-  const [previewImage, setPreviewImage] = useState("");
-  const [previewTitle, setPreviewTitle] = useState("");
-
   const handlePreview = async (file: any) => {
     setPreviewImage(file.thumbUrl || file.url);
     setPreviewVisible(true);
@@ -37,21 +41,51 @@ const CreateBlog = () => {
   };
 
   const handleCancel = () => setPreviewVisible(false);
+
+  const addFaq = () => setFaqs([...faqs, { question: "", answer: "" }]);
+
+  const removeFaq = (index: number) => {
+    const updatedFaqs = faqs.filter((_, i) => i !== index);
+    setFaqs(updatedFaqs);
+  };
+
+  const updateFaq = (
+    index: number,
+    field: keyof TOurServiceFAQ,
+    value: string | number
+  ) => {
+    const updatedFaqs = [...faqs];
+    if (field === "id") {
+      updatedFaqs[index][field] = value as number;
+    } else {
+      updatedFaqs[index][field] = value as string;
+    }
+    setFaqs(updatedFaqs);
+  };
+
   const onFinish = (values: any): void => {
     const formData: FormData = new FormData();
 
     Object.entries(values).forEach(([key, value]) => {
-      if (Array.isArray(value)) {
-        value.forEach((file) => {
-          if (file?.originFileObj) {
-            formData.append(key, file.originFileObj);
-          }
-        });
+      if (key === "keyPoints" && typeof value === "string") {
+        formData.append(key, JSON.stringify([value]));
+      } else if (Array.isArray(value)) {
+        if (key === "keyPoints") {
+          formData.append(key, JSON.stringify(value));
+        } else {
+          value.forEach((file) => {
+            if (file?.originFileObj) {
+              formData.append(key, file.originFileObj);
+            } else {
+              formData.append(key, file as string);
+            }
+          });
+        }
       } else {
         formData.append(key, value as string | Blob);
       }
     });
-
+    formData.append("faqs", JSON.stringify(faqs));
     create(formData);
   };
 
@@ -60,7 +94,7 @@ const CreateBlog = () => {
       <Form onFinish={onFinish} isLoading={isLoading} isSuccess={isSuccess}>
         <Row gutter={[10, 10]}>
           <Col lg={12}>
-            <Form.Item<TCreateBlogTypes>
+            <Form.Item<TCreateOurServiceTypes>
               label="Web Service"
               name="webService"
               rules={[
@@ -82,7 +116,7 @@ const CreateBlog = () => {
           </Col>
 
           <Col lg={12}>
-            <Form.Item<TCreateBlogTypes>
+            <Form.Item<TCreateOurServiceTypes>
               label="Category"
               name="category"
               rules={[{ required: true, message: "Please select a category" }]}
@@ -102,7 +136,7 @@ const CreateBlog = () => {
           </Col>
 
           <Col span={12} lg={12}>
-            <Form.Item<TCreateBlogTypes>
+            <Form.Item<TCreateOurServiceTypes>
               label="Title"
               name="title"
               rules={[{ required: true, message: "Title is required" }]}
@@ -112,7 +146,7 @@ const CreateBlog = () => {
           </Col>
 
           <Col span={24} lg={12}>
-            <Form.Item<TCreateBlogTypes>
+            <Form.Item<TCreateOurServiceTypes>
               label="Slug"
               name="slug"
               rules={[{ required: true, message: "Slug is required" }]}
@@ -120,9 +154,8 @@ const CreateBlog = () => {
               <Input placeholder="Slug" />
             </Form.Item>
           </Col>
-
           <Col span={12} lg={12}>
-            <Form.Item<TCreateBlogTypes>
+            <Form.Item<TCreateOurServiceTypes>
               label="Subtitle"
               name="subtitle"
               rules={[{ required: true, message: "Subtitle is required" }]}
@@ -131,7 +164,7 @@ const CreateBlog = () => {
             </Form.Item>
           </Col>
           <Col span={12} lg={12}>
-            <Form.Item<TCreateBlogTypes>
+            <Form.Item<TCreateOurServiceTypes>
               label="Key Points"
               name="keyPoints"
               rules={[
@@ -149,17 +182,35 @@ const CreateBlog = () => {
               />
             </Form.Item>
           </Col>
-          <Col span={4} lg={4}>
-            <Form.Item<TCreateBlogTypes>
-              name="isFeatured"
-              valuePropName="checked"
+          <Col span={12} lg={12}>
+            <Form.Item<TCreateOurServiceTypes>
+              label="Price"
+              name="price"
+              rules={[{ required: false }]}
             >
-              <Checkbox>Is Featured</Checkbox>
+              <Input placeholder="10.50" />
             </Form.Item>
           </Col>
-
+          <Col span={12} lg={12}>
+            <Form.Item<TCreateOurServiceTypes>
+              label="Content Title"
+              name="contentTitle"
+              rules={[{ required: false }]}
+            >
+              <Input placeholder="content title" />
+            </Form.Item>
+          </Col>
           <Col span={24} lg={24}>
-            <Form.Item<TCreateBlogTypes>
+            <Form.Item<TCreateOurServiceTypes>
+              label="Icon"
+              name="icon"
+              rules={[{ required: false }]}
+            >
+              <Input.TextArea placeholder="Icon" rows={4} />
+            </Form.Item>
+          </Col>
+          <Col span={24} lg={24}>
+            <Form.Item<TCreateOurServiceTypes>
               label="Description"
               name="description"
               rules={[{ required: true, message: "Description is required" }]}
@@ -169,7 +220,7 @@ const CreateBlog = () => {
           </Col>
 
           <Col span={24} lg={24}>
-            <Form.Item<TCreateBlogTypes>
+            <Form.Item<TCreateOurServiceTypes>
               label="Content"
               name="content"
               rules={[{ required: true, message: "Content is required" }]}
@@ -178,8 +229,45 @@ const CreateBlog = () => {
             </Form.Item>
           </Col>
           <Col span={24} lg={24}>
+            <h3>FAQs</h3>
+            {faqs.map((faq, index) => (
+              <Row key={index} gutter={16} className="my-2" align="middle">
+                <Col span={11}>
+                  <Input
+                    placeholder="Question"
+                    value={faq.question}
+                    onChange={(e) =>
+                      updateFaq(index, "question", e.target.value)
+                    }
+                  />
+                </Col>
+                <Col span={11}>
+                  <Input
+                    placeholder="Answer"
+                    value={faq.answer}
+                    onChange={(e) => updateFaq(index, "answer", e.target.value)}
+                  />
+                </Col>
+                <Col span={2}>
+                  <Button
+                    type="dashed"
+                    icon={<MinusCircleOutlined />}
+                    onClick={() => removeFaq(index)}
+                  />
+                </Col>
+              </Row>
+            ))}
+            <Button
+              type="dashed"
+              onClick={addFaq}
+              style={{ width: "100%", marginTop: "10px" }}
+            >
+              <PlusOutlined /> Add FAQ
+            </Button>
+          </Col>
+          <Col span={24} lg={24}>
             <Form.Item
-              label="Blog Images"
+              label=" Images"
               name="images"
               valuePropName="fileList"
               getValueFromEvent={(e) => {
@@ -215,4 +303,4 @@ const CreateBlog = () => {
   );
 };
 
-export default CreateBlog;
+export default CreateOurService;

@@ -1,28 +1,33 @@
 import { Descriptions, DescriptionsProps } from "antd";
 import { useParams } from "react-router-dom";
 import BreadCrumb from "../../../../common/BreadCrumb/BreadCrumb";
-import { useSingleSectionQuery } from "../api/SectionEndPoints";
-import { TSectionDataTypes } from "../types/SectionTypes";
+import { useSingleSectionItemQuery } from "../api/SectionItemEndPoints";
+import { TSectionItemDataTypes } from "../types/SectionItemTypes";
 
-const SectionView = () => {
-  const { sectionId } = useParams();
-  const { data } = useSingleSectionQuery({ id: Number(sectionId) });
+const SectionItemView = () => {
+  const { sectionItemId } = useParams();
+  const { data } = useSingleSectionItemQuery({ id: Number(sectionItemId) });
 
   const {
-    webService,
+    genericPageSection,
     title,
+    icon,
     subtitle,
     image,
-    icon,
     description,
     keyPoints,
-  }: TSectionDataTypes = data?.data || {};
+  }: TSectionItemDataTypes = data?.data || {};
 
   const borderedItems: DescriptionsProps["items"] = [
     {
       key: "2",
-      label: <div className="custom-label font-bold">Web Service ID</div>,
-      children: <div>{webService?.serviceId || "N/A"}</div>,
+      label: <div className="custom-label font-bold">sectionName</div>,
+      children: <div>{genericPageSection?.sectionName || "N/A"}</div>,
+    },    
+    {
+      key: "22",
+      label: <div className="custom-label font-bold">Service Id</div>,
+      children: <div>{genericPageSection?.webService?.serviceId || "N/A"}</div>,
     },
     {
       key: "3",
@@ -72,11 +77,11 @@ const SectionView = () => {
         contentStyle={{ width: "400px" }}
         column={3}
         bordered
-        title={`Section Title: ${title}`}
+        title={`SectionItem Title: ${title}`}
         items={borderedItems}
       />
     </div>
   );
 };
 
-export default SectionView;
+export default SectionItemView;

@@ -7,9 +7,9 @@ const SidebarTop: React.FC = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setTime(moment().format("LTS"));
-    }, 1000); // update every second
+    }, 1000);
 
-    return () => clearInterval(interval); // cleanup interval on component unmount
+    return () => clearInterval(interval);
   }, []);
   return (
     <React.Fragment>

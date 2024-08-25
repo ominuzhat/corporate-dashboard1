@@ -16,7 +16,7 @@ const usersEndpoint = api.injectEndpoints({
 
     createUser: builder.mutation<ApiResponse<UsersTypes>, UsersTypes>({
       query: (data) => ({
-        url: "/users",
+        url: "/user",
         method: "POST",
         body: data,
       }),
@@ -31,7 +31,7 @@ const usersEndpoint = api.injectEndpoints({
       { id: number; data: UsersTypes }
     >({
       query: ({ id, data }) => ({
-        url: `/users/${id}`,
+        url: `/user/${id}`,
         method: "POST",
         body: data,
       }),

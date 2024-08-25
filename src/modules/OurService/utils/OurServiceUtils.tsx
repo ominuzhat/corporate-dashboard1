@@ -2,17 +2,17 @@
 import { Popconfirm, Space } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { useDispatch } from "react-redux";
-import { showModal } from "../../../../app/features/modalSlice";
-import DeleteButton from "../../../../common/CommonAnt/Button/DeleteButton";
-import EditButton from "../../../../common/CommonAnt/Button/EditButton";
-import ViewButton from "../../../../common/CommonAnt/Button/ViewButton";
-import { useDeleteSectionMutation } from "../api/SectionEndPoints";
-import UpdateSection from "../components/UpdateSection";
-import { TSectionDataTypes } from "../types/SectionTypes";
+import { showModal } from "../../../app/features/modalSlice";
+import DeleteButton from "../../../common/CommonAnt/Button/DeleteButton";
+import EditButton from "../../../common/CommonAnt/Button/EditButton";
+import ViewButton from "../../../common/CommonAnt/Button/ViewButton";
+import { useDeleteOurServiceItemMutation } from "../api/OurServiceEndPoints";
+import UpdateOurService from "../components/UpdateOurService";
+import { TOurServiceDataTypes } from "../types/OurServiceTypes";
 
-const useColumns = (): ColumnsType<TSectionDataTypes> => {
+const useColumns = (): ColumnsType<TOurServiceDataTypes> => {
   const dispatch = useDispatch();
-  const [deleteCartItem] = useDeleteSectionMutation();
+  const [deleteCartItem] = useDeleteOurServiceItemMutation();
   const handleDelete = async (id: any) => {
     try {
       await deleteCartItem({ id }).unwrap();
@@ -45,10 +45,17 @@ const useColumns = (): ColumnsType<TSectionDataTypes> => {
     },
     {
       key: "3",
-      title: "Section Name",
+      title: "category",
       align: "center",
-      dataIndex: "sectionName",
-      render: (sectionName) => (sectionName ? sectionName : "N/A"),
+      dataIndex: "category",
+      render: (category) => (category?.name ? category?.name : "N/A"),
+    },
+    {
+      key: "3",
+      title: "views",
+      align: "center",
+      dataIndex: "views",
+      render: (views) => views,
     },
     {
       title: "Actions",
@@ -59,8 +66,8 @@ const useColumns = (): ColumnsType<TSectionDataTypes> => {
             onClick={() =>
               dispatch(
                 showModal({
-                  title: "Update Section",
-                  content: <UpdateSection record={record} />,
+                  title: "Update OurService",
+                  content: <UpdateOurService record={record} />,
                 })
               )
             }

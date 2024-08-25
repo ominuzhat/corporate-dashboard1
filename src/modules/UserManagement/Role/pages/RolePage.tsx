@@ -1,17 +1,17 @@
 import { Button, Card, Col, Row } from "antd";
-import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
+import BreadCrumb from "../../../../common/BreadCrumb/BreadCrumb";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { showModal } from "../../../app/features/modalSlice";
-import { SearchComponent } from "../../../common/CommonAnt/CommonSearch/CommonSearch";
-import { RootState } from "../../../app/store";
+import { showModal } from "../../../../app/features/modalSlice";
+import { SearchComponent } from "../../../../common/CommonAnt/CommonSearch/CommonSearch";
+import { RootState } from "../../../../app/store";
 import { PlusOutlined } from "@ant-design/icons";
-import useColumns from "../utils/BlogUtils";
-import { useGetBlogQuery } from "../api/BlogEndPoints";
-import CreateBlog from "../components/CreateBlog";
-import { Table } from "../../../common/CommonAnt";
+import useColumns from "../utils/RoleUtils";
+import { useGetRoleQuery } from "../api/RoleEndPoints";
+import { Table } from "../../../../common/CommonAnt";
+import CreateRole from "../components/CreateRole";
 
-const BlogPage = () => {
+const RolePage = () => {
   const [search, setSearch] = useState("");
   const dispatch = useDispatch();
   const filter = useSelector((state: RootState) => ({
@@ -19,9 +19,7 @@ const BlogPage = () => {
     keyword: search,
   }));
 
-  const { data: blogData, isLoading } = useGetBlogQuery(filter);
-
-  console.log(blogData)
+  const { data: categoryData, isLoading } = useGetRoleQuery(filter);
 
   return (
     <div className="space-y-5">
@@ -36,21 +34,21 @@ const BlogPage = () => {
               onClick={() =>
                 dispatch(
                   showModal({
-                    title: "Add Blog",
-                    content: <CreateBlog />,
+                    title: "Add Role",
+                    content: <CreateRole />,
                   })
                 )
               }
               icon={<PlusOutlined />}
               className="w-full"
             >
-              Add Blog
+              Add Role
             </Button>
           </Col>
           <Col lg={6}>
             <SearchComponent
               onSearch={(value) => setSearch(value)}
-              placeholder="Enter Your Blog Name"
+              placeholder="Enter Your Role Name"
             />
           </Col>
         </Row>
@@ -58,12 +56,12 @@ const BlogPage = () => {
 
       <Table
         loading={isLoading}
-        total={blogData?.total || 0}
-        dataSource={blogData?.data || []}
+        total={categoryData?.total || 0}
+        dataSource={categoryData?.data || []}
         columns={useColumns()}
       />
     </div>
   );
 };
 
-export default BlogPage;
+export default RolePage;

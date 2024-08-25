@@ -29,7 +29,6 @@ const OfficeInfoView = () => {
     webService,
   } = data?.data || {};
 
-  console.log(data); // For debugging purposes
 
   const borderedItems: DescriptionsProps["items"] = [
     {

@@ -6,13 +6,13 @@ import { showModal } from "../../../../app/features/modalSlice";
 import DeleteButton from "../../../../common/CommonAnt/Button/DeleteButton";
 import EditButton from "../../../../common/CommonAnt/Button/EditButton";
 import ViewButton from "../../../../common/CommonAnt/Button/ViewButton";
-import { useDeleteSectionMutation } from "../api/SectionEndPoints";
-import UpdateSection from "../components/UpdateSection";
-import { TSectionDataTypes } from "../types/SectionTypes";
+import { useDeleteUserMutation } from "../api/UserEndPoints";
+import UpdateUser from "../components/UpdateUser";
+import { TUserDataTypes } from "../types/UserTypes";
 
-const useColumns = (): ColumnsType<TSectionDataTypes> => {
+const useColumns = (): ColumnsType<TUserDataTypes> => {
   const dispatch = useDispatch();
-  const [deleteCartItem] = useDeleteSectionMutation();
+  const [deleteCartItem] = useDeleteUserMutation();
   const handleDelete = async (id: any) => {
     try {
       await deleteCartItem({ id }).unwrap();
@@ -29,26 +29,39 @@ const useColumns = (): ColumnsType<TSectionDataTypes> => {
       render: (_text, _record, index) => index + 1,
     },
     {
-      key: "1",
-      title: "Web Service Id",
+      key: "2",
+      title: "Email",
       align: "center",
-      dataIndex: "webService",
-      render: (webService) =>
-        webService?.serviceId ? webService?.serviceId : "N/A",
+      dataIndex: "email",
+      render: (email) => (email ? email : "N/A"),
     },
     {
       key: "2",
-      title: "Title",
+      title: "Phone",
       align: "center",
-      dataIndex: "title",
-      render: (title) => (title ? title : "N/A"),
+      dataIndex: "details",
+      render: (details) => (details?.phone ? details?.phone : "N/A"),
+    },
+    {
+      key: "34",
+      title: "Role",
+      align: "center",
+      dataIndex: "role",
+      render: (role) => (role?.name ? role?.name : "N/A"),
+    },
+    {
+      key: "33",
+      title: "Client Id",
+      align: "center",
+      dataIndex: "clientId",
+      render: (clientId) => (clientId ? clientId : "N/A"),
     },
     {
       key: "3",
-      title: "Section Name",
+      title: "Status",
       align: "center",
-      dataIndex: "sectionName",
-      render: (sectionName) => (sectionName ? sectionName : "N/A"),
+      dataIndex: "status",
+      render: (status) => (status ? 'Active' : "Inactive"),
     },
     {
       title: "Actions",
@@ -59,8 +72,8 @@ const useColumns = (): ColumnsType<TSectionDataTypes> => {
             onClick={() =>
               dispatch(
                 showModal({
-                  title: "Update Section",
-                  content: <UpdateSection record={record} />,
+                  title: "Update User",
+                  content: <UpdateUser record={record} />,
                 })
               )
             }

@@ -13,55 +13,56 @@ import {
 import React, { useState, useEffect } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import {
-  useSingleSectionQuery,
-  useUpdateSectionMutation,
-} from "../api/SectionEndPoints";
-import { useGetWebServiceQuery } from "../../../Configuration/WebService/api/WebServiceEndPoints";
+  useSingleSectionItemQuery,
+  useUpdateSectionItemMutation,
+} from "../api/SectionItemEndPoints";
+import { useGetSectionQuery } from "../../Section/api/SectionEndPoints";
 
 interface Props {
   record: any;
 }
 
-const UpdateSection: React.FC<Props> = React.memo(({ record }) => {
-  const { data: singleSection } = useSingleSectionQuery({ id: record?.id });
-  const { data: webServiceData }: any = useGetWebServiceQuery({});
-  const [update, { isLoading }] = useUpdateSectionMutation();
+const UpdateSectionItem: React.FC<Props> = React.memo(({ record }) => {
+  const { data: singleSectionItem } = useSingleSectionItemQuery({
+    id: record?.id,
+  });
+  const { data: sectionData }: any = useGetSectionQuery({});
+  const [update, { isLoading }] = useUpdateSectionItemMutation();
   const [form] = AntForm.useForm();
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
   const [fileList, setFileList] = useState<any[]>([]);
 
-  const webServiceOptions =
-    webServiceData?.data.map((service: any) => ({
-      value: service?.id,
-      label: service?.serviceId,
+  const sectionOptions =
+    sectionData?.data?.map((section: any) => ({
+      value: section?.id,
+      label: `${section?.webService?.serviceId} - ${section?.sectionName}`,
     })) || [];
 
   useEffect(() => {
-    if (singleSection) {
+    if (singleSectionItem) {
       form.setFieldsValue({
-        title: singleSection.data.title || "",
-        subtitle: singleSection.data.subtitle || "",
-        sectionName: singleSection.data.sectionName || "",
-        description: singleSection.data.description || "",
-        icon: singleSection.data.icon || "",
-        webService: singleSection.data?.webService?.id,
-        keyPoints: singleSection.data.keyPoints || [],
-        image: singleSection.data.image
+        title: singleSectionItem.data.title || "",
+        subtitle: singleSectionItem.data.subtitle || "",
+        description: singleSectionItem.data.description || "",
+        icon: singleSectionItem.data.icon || "",
+        genericPageSection: singleSectionItem.data?.genericPageSection?.id,
+        keyPoints: singleSectionItem.data.keyPoints || [],
+        image: singleSectionItem.data.image
           ? [
               {
                 uid: "-1",
                 name: "Current Image",
                 status: "done",
-                url: singleSection.data.image,
-                thumbUrl: singleSection.data.image,
+                url: singleSectionItem.data.image,
+                thumbUrl: singleSectionItem.data.image,
               },
             ]
           : [],
       });
     }
-  }, [singleSection, form]);
+  }, [singleSectionItem, form]);
 
   const handlePreview = async (file: any) => {
     setPreviewImage(file.thumbUrl || file.url);
@@ -75,7 +76,7 @@ const UpdateSection: React.FC<Props> = React.memo(({ record }) => {
 
   const handleUploadChange = ({ fileList }: any) => {
     setFileList(fileList);
-    form.setFieldsValue({ image: fileList }); // Ensure form state is updated
+    form.setFieldsValue({ image: fileList });
   };
 
   const onFinish = (values: any): void => {
@@ -111,38 +112,47 @@ const UpdateSection: React.FC<Props> = React.memo(({ record }) => {
         <Row gutter={16}>
           <Col lg={6}>
             <AntForm.Item
-              label="Web Service"
-              name="webService"
+              label="Page Section"
+              name="genericPageSection"
               rules={[
-                { required: true, message: "please select a web service" },
+                { required: true, message: "please select a Page Section" },
               ]}
             >
               <Select
                 showSearch
-                placeholder="Select Web Service"
+                placeholder="Select Page Section"
                 filterOption={(input, option) =>
                   (option?.label ?? "")
                     .toString()
                     .toLowerCase()
                     .includes(input.toLowerCase())
                 }
-                options={webServiceOptions}
+                options={sectionOptions}
               />
             </AntForm.Item>
           </Col>
           <Col lg={8}>
             <AntForm.Item label="Title" name="title">
-              <Input placeholder="Section Title." />
+              <Input placeholder="SectionItem Title." />
             </AntForm.Item>
           </Col>
           <Col lg={8}>
             <AntForm.Item label="Subtitle" name="subtitle">
-              <Input placeholder="Section Subtitle." />
+              <Input placeholder="SectionItem Subtitle." />
             </AntForm.Item>
           </Col>
           <Col lg={8}>
             <AntForm.Item label="Description" name="description">
               <Input placeholder="Description" />
+            </AntForm.Item>
+          </Col>
+          <Col span={24} lg={24}>
+            <AntForm.Item
+              label="Icon"
+              name="icon"
+              rules={[{ required: false }]}
+            >
+              <Input.TextArea placeholder="icon" rows={4} />
             </AntForm.Item>
           </Col>
           <Col lg={16}>
@@ -157,7 +167,7 @@ const UpdateSection: React.FC<Props> = React.memo(({ record }) => {
           </Col>
           <Col lg={16}>
             <AntForm.Item
-              label="Section Image"
+              label="SectionItem Image"
               name="image"
               valuePropName="fileList"
               getValueFromEvent={(e) =>
@@ -195,4 +205,4 @@ const UpdateSection: React.FC<Props> = React.memo(({ record }) => {
   );
 });
 
-export default UpdateSection;
+export default UpdateSectionItem;

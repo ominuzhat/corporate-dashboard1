@@ -1,28 +1,37 @@
-import { Carousel, Descriptions, DescriptionsProps } from "antd";
+import {
+  Carousel,
+  Col,
+  Collapse,
+  Descriptions,
+  DescriptionsProps,
+  Typography,
+} from "antd";
 import { useParams } from "react-router-dom";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import { useSingleBlogItemQuery } from "../api/BlogEndPoints";
-import { TBlogDetailDataTypes } from "../types/BlogTypes";
+import { useSingleOurServiceItemQuery } from "../api/OurServiceEndPoints";
+import { TOurServiceDataTypes } from "../types/OurServiceTypes";
+const { Title } = Typography;
+const { Panel } = Collapse;
 
-const BlogView = () => {
-  const { blogId } = useParams();
-  const { data } = useSingleBlogItemQuery({ id: Number(blogId) });
+const OurServiceView = () => {
+  const { ourServiceId } = useParams();
+  const { data } = useSingleOurServiceItemQuery({ id: Number(ourServiceId) });
 
   const {
     webService,
     title,
     subtitle,
     slug,
-    views,
-    isFeatured,
     images,
     category,
-    createdAt,
-    updatedAt,
     description,
     content,
     keyPoints,
-  }: TBlogDetailDataTypes = data?.data || {};
+    faqs,
+    contentTitle,
+    icon,
+    price,
+  }: TOurServiceDataTypes = data?.data || {};
 
   const borderedItems: DescriptionsProps["items"] = [
     {
@@ -36,38 +45,14 @@ const BlogView = () => {
       children: <div>{category?.name || "N/A"}</div>,
     },
     {
-      key: "11",
-      label: <div className="custom-label font-bold">Updated At</div>,
-      children: (
-        <div>
-          {updatedAt ? new Date(updatedAt).toLocaleDateString() : "N/A"}
-        </div>
-      ),
-    },
-    {
-      key: "6",
-      label: <div className="custom-label font-bold">Views</div>,
-      children: <div>{views || 0}</div>,
-    },
-
-    {
-      key: "7",
-      label: <div className="custom-label font-bold">Is Featured</div>,
-      children: <div>{isFeatured ? "Yes" : "No"}</div>,
-    },
-    {
-      key: "10",
-      label: <div className="custom-label font-bold">Created At</div>,
-      children: (
-        <div>
-          {createdAt ? new Date(createdAt).toLocaleDateString() : "N/A"}
-        </div>
-      ),
-    },
-    {
       key: "3",
       label: <div className="custom-label font-bold">Title</div>,
       children: <div>{title}</div>,
+    },
+    {
+      key: "33",
+      label: <div className="custom-label font-bold">Content Title</div>,
+      children: <div>{contentTitle}</div>,
     },
     {
       key: "5",
@@ -79,7 +64,11 @@ const BlogView = () => {
       label: <div className="custom-label font-bold">Subtitle</div>,
       children: <div>{subtitle}</div>,
     },
-
+    {
+      key: "44",
+      label: <div className="custom-label font-bold">Price</div>,
+      children: <div>{price}</div>,
+    },
     {
       key: "14",
       label: <div className="custom-label font-bold">Key Points</div>,
@@ -95,13 +84,36 @@ const BlogView = () => {
       key: "12",
       label: <div className="custom-label font-bold">Description</div>,
       children: <div>{description}</div>,
-      span: 2
+      span: 2,
     },
     {
       key: "13",
       label: <div className="custom-label font-bold">Content</div>,
       children: <div>{content}</div>,
     },
+    {
+      key: "45",
+      label: <div className="custom-label font-bold">Icon</div>,
+      children: <div>{icon}</div>,
+    },
+    // {
+    //   key: "45",
+    //   label: <div className="custom-label font-bold">Faqs</div>,
+    //   children: (
+    //     <div>
+    //       {faqs?.map((faq, index) => (
+    //         <Row key={index} gutter={16} className="my-2" align="middle">
+    //           <Col span={11}>
+    //           {faq.question}
+    //           </Col>
+    //           <Col span={11}>
+    //           {faq.answer}
+    //           </Col>
+    //         </Row>
+    //       ))}
+    //     </div>
+    //   ),
+    // },
   ];
 
   const contentStyle: React.CSSProperties = {
@@ -137,11 +149,25 @@ const BlogView = () => {
         contentStyle={{ width: "400px" }}
         column={3}
         bordered
-        title={`Blog Title: ${title}`}
+        title={`OurService Title: ${title}`}
         items={borderedItems}
       />
+      <div className="faqs-section my-4">
+        <Title level={4}>FAQs</Title>
+        {faqs && faqs.length > 0 ? (
+          <Collapse accordion>
+            {faqs.map((faq, index) => (
+              <Panel header={faq.question} key={index}>
+                <p>{faq.answer}</p>
+              </Panel>
+            ))}
+          </Collapse>
+        ) : (
+          <p>No FAQs available.</p>
+        )}
+      </div>
     </div>
   );
 };
 
-export default BlogView;
+export default OurServiceView;

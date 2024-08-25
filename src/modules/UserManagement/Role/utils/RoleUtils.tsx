@@ -1,4 +1,3 @@
-// useColumns.js
 import { Popconfirm, Space } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { useDispatch } from "react-redux";
@@ -6,13 +5,13 @@ import { showModal } from "../../../../app/features/modalSlice";
 import DeleteButton from "../../../../common/CommonAnt/Button/DeleteButton";
 import EditButton from "../../../../common/CommonAnt/Button/EditButton";
 import ViewButton from "../../../../common/CommonAnt/Button/ViewButton";
-import { useDeleteSectionMutation } from "../api/SectionEndPoints";
-import UpdateSection from "../components/UpdateSection";
-import { TSectionDataTypes } from "../types/SectionTypes";
+import { useDeleteRoleItemMutation } from "../api/RoleEndPoints";
+import UpdateRole from "../components/UpdateRole";
+import { TRoleDataTypes } from "../types/RoleTypes";
 
-const useColumns = (): ColumnsType<TSectionDataTypes> => {
+const useColumns = (): ColumnsType<TRoleDataTypes> => {
   const dispatch = useDispatch();
-  const [deleteCartItem] = useDeleteSectionMutation();
+  const [deleteCartItem] = useDeleteRoleItemMutation();
   const handleDelete = async (id: any) => {
     try {
       await deleteCartItem({ id }).unwrap();
@@ -30,25 +29,10 @@ const useColumns = (): ColumnsType<TSectionDataTypes> => {
     },
     {
       key: "1",
-      title: "Web Service Id",
+      title: "Name",
       align: "center",
-      dataIndex: "webService",
-      render: (webService) =>
-        webService?.serviceId ? webService?.serviceId : "N/A",
-    },
-    {
-      key: "2",
-      title: "Title",
-      align: "center",
-      dataIndex: "title",
+      dataIndex: "name",
       render: (title) => (title ? title : "N/A"),
-    },
-    {
-      key: "3",
-      title: "Section Name",
-      align: "center",
-      dataIndex: "sectionName",
-      render: (sectionName) => (sectionName ? sectionName : "N/A"),
     },
     {
       title: "Actions",
@@ -59,8 +43,8 @@ const useColumns = (): ColumnsType<TSectionDataTypes> => {
             onClick={() =>
               dispatch(
                 showModal({
-                  title: "Update Section",
-                  content: <UpdateSection record={record} />,
+                  title: "Update Role",
+                  content: <UpdateRole record={record} />,
                 })
               )
             }
