@@ -9,7 +9,6 @@ import {
 import { TServiceDataTypes } from "../types/serviceTypes";
 import KeyPoint from "./KeyPoint";
 import FaqForm from "./Faqs";
-import UpdateKeyPoint from "./UpdateKeyPoints";
 
 interface Props {
   record: any;
@@ -28,6 +27,7 @@ const UpdateService: React.FC<Props> = React.memo(({ record }) => {
   const [addImages, setAddImages] = useState<File[]>([]);
   const [deleteImages, setDeleteImages] = useState<number[]>([]);
 
+  console.log("asdasd", addImages);
   console.log("asdasd", deleteImages);
 
   useEffect(() => {

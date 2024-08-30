@@ -1,7 +1,7 @@
 import React from "react";
 import { Form } from "../../../../common/CommonAnt";
 import { useCreateRestaurantMutation } from "../../../Restaurants/api/restaurantsEndpoint";
-import { Badge, Card, Col, Input, InputNumber, Row, Select } from "antd";
+import { Badge, Card, Col, Input, Row, Select } from "antd";
 import CommonClient from "../../../../common/commonCLient/CommonClient";
 import {
   HarmonyOSOutlined,
@@ -13,7 +13,6 @@ import { DatePickerWithOptionalToday } from "../../../../common/CommonAnt/Common
 import CommonAgent from "../../../../common/CommonAgent/CommonAgent";
 import CreatePaxPassport from "./CreatePaxPassport";
 import CreateFlight from "./CreateFlight";
-const { Option } = Select;
 
 const CreateNonCommision = () => {
   const [create, { isLoading, isSuccess }] = useCreateRestaurantMutation();
@@ -23,19 +22,19 @@ const CreateNonCommision = () => {
 
     console.log("vvv", values);
 
-    // Object.entries(values).forEach(([key, value]) => {
-    //   if (
-    //     key === "restaurant_logo" &&
-    //     Array.isArray(value) &&
-    //     value[0]?.originFileObj
-    //   ) {
-    //     formData.append(key, value[0].originFileObj);
-    //   } else {
-    //     formData.append(key, value as string | Blob);
-    //   }
-    // });
+    Object.entries(values).forEach(([key, value]) => {
+      if (
+        key === "restaurant_logo" &&
+        Array.isArray(value) &&
+        value[0]?.originFileObj
+      ) {
+        formData.append(key, value[0].originFileObj);
+      } else {
+        formData.append(key, value as string | Blob);
+      }
+    });
 
-    // create(formData);
+    create(formData);
   };
 
   return (

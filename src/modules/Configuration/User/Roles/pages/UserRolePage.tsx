@@ -1,9 +1,6 @@
 import { Button, Card, Col, Row, Space, TableProps, Tag } from "antd";
 import {
-  HarmonyOSOutlined,
-  ManOutlined,
   PlusOutlined,
-  WomanOutlined,
 } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import EditButton from "../../../../../common/CommonAnt/Button/EditButton";
@@ -13,6 +10,7 @@ import BreadCrumb from "../../../../../common/BreadCrumb/BreadCrumb";
 import { showModal } from "../../../../../app/features/modalSlice";
 import { SearchComponent } from "../../../../../common/CommonAnt/CommonSearch/CommonSearch";
 import { Table } from "../../../../../common/CommonAnt";
+import CreateUserModal from "../../Users/components/CreateUserModal";
 
 interface DataType {
   key: string;
@@ -62,7 +60,7 @@ const columns: TableProps<DataType>["columns"] = [
   {
     title: "Action",
     key: "action",
-    render: (_, record) => (
+    render: () => (
       <Space size="middle">
         <EditButton>Edit</EditButton>
         <ViewButton to="/">View</ViewButton>

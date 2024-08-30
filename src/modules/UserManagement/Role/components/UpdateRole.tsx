@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Col, Form as AntForm, Input, Row, Button, Select } from "antd";
+import { Col, Form as AntForm, Input, Row, Button } from "antd";
 import { useUpdateRoleMutation } from "../api/RoleEndPoints";
 import { TRoleDataTypes, TCreateRoleTypes } from "../types/RoleTypes";
 

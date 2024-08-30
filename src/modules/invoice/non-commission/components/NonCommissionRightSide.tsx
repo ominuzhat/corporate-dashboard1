@@ -8,7 +8,6 @@ import {
   Space,
   Table,
   TableProps,
-  Tag,
 } from "antd";
 import { useCreateRestaurantMutation } from "../../../Restaurants/api/restaurantsEndpoint";
 import TextArea from "antd/es/input/TextArea";
@@ -20,26 +19,26 @@ interface DataType {
   tags: string[];
 }
 const NonCommissionRightSide = () => {
-  const [create, { isLoading, isSuccess }] = useCreateRestaurantMutation();
+  const [create] = useCreateRestaurantMutation();
 
   const onFinish = (values: any): void => {
     const formData: FormData = new FormData();
 
     console.log("vvv", values);
 
-    // Object.entries(values).forEach(([key, value]) => {
-    //   if (
-    //     key === "restaurant_logo" &&
-    //     Array.isArray(value) &&
-    //     value[0]?.originFileObj
-    //   ) {
-    //     formData.append(key, value[0].originFileObj);
-    //   } else {
-    //     formData.append(key, value as string | Blob);
-    //   }
-    // });
+    Object.entries(values).forEach(([key, value]) => {
+      if (
+        key === "restaurant_logo" &&
+        Array.isArray(value) &&
+        value[0]?.originFileObj
+      ) {
+        formData.append(key, value[0].originFileObj);
+      } else {
+        formData.append(key, value as string | Blob);
+      }
+    });
 
-    // create(formData);
+    create(formData);
   };
 
   const columns: TableProps<DataType>["columns"] = [

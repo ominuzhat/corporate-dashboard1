@@ -1,5 +1,4 @@
 import { Space } from "antd";
-import { GlobalOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import { showModal } from "../../../app/features/modalSlice";
 import EditButton from "../../../common/CommonAnt/Button/EditButton";

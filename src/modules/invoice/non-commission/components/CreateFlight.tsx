@@ -5,7 +5,7 @@ import {
   ManOutlined,
   WomanOutlined,
 } from "@ant-design/icons";
-import { useState } from "react";
+// import { useState } from "react";
 import {
   CustomTimePicker,
   DatePickerWithOptionalToday,
@@ -13,11 +13,11 @@ import {
 import { Dayjs } from "dayjs";
 
 const CreateFlight = () => {
-  const [items, setItems] = useState(["jack", "lucy"]);
+  // const [items, setItems] = useState(["jack", "lucy"]);
 
-  const handleAddItem = (item: string) => {
-    setItems([...items, item]);
-  };
+  // const handleAddItem = (item: string) => {
+  //   setItems([...items, item]);
+  // };
   const handleChange = (value: string) => {
     console.log(`selected ${value}`);
   };

@@ -1,4 +1,3 @@
-import React from "react";
 import { Form } from "../../../../common/CommonAnt";
 import { useCreateRestaurantMutation } from "../../../Restaurants/api/restaurantsEndpoint";
 import { Input } from "antd";

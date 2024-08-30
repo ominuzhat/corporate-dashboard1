@@ -24,19 +24,19 @@ const CreateCommisionAirTicket = () => {
 
     console.log("vvv", values);
 
-    // Object.entries(values).forEach(([key, value]) => {
-    //   if (
-    //     key === "restaurant_logo" &&
-    //     Array.isArray(value) &&
-    //     value[0]?.originFileObj
-    //   ) {
-    //     formData.append(key, value[0].originFileObj);
-    //   } else {
-    //     formData.append(key, value as string | Blob);
-    //   }
-    // });
+    Object.entries(values).forEach(([key, value]) => {
+      if (
+        key === "restaurant_logo" &&
+        Array.isArray(value) &&
+        value[0]?.originFileObj
+      ) {
+        formData.append(key, value[0].originFileObj);
+      } else {
+        formData.append(key, value as string | Blob);
+      }
+    });
 
-    // create(formData);
+    create(formData);
   };
 
   return (

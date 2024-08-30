@@ -7,7 +7,6 @@ import {
   Image,
   Input,
   Row,
-  Select,
   Space,
   Tag,
   Typography,
@@ -27,9 +26,8 @@ import { flight } from "../../../utilities/images";
 
 const Profile: React.FC = () => {
   const { data: profileData, isFetching } = useGetProfileQuery();
-  const { Option } = Select;
 
-  const { email, firstName, lastName, role, details, phone } =
+  const { email, firstName, lastName, role, details } =
     profileData?.data || {};
 
   const [create] = useUpdateProfileMutation();

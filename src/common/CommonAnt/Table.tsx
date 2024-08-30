@@ -26,7 +26,7 @@ const Table = <T extends object>({ total, ...restProps }: Props<T>) => {
             Total {limit} of {total}
           </Typography.Text>
         ),
-        current: Math.floor(skip / limit) + 1,
+        current: Math.floor((skip ?? 0) / (limit ?? 1)) + 1,
         pageSize: limit,
         onChange: (page, pageSize) => {
           dispatch(setLimit(pageSize));

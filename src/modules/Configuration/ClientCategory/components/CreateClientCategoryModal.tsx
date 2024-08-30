@@ -1,11 +1,7 @@
 import { Form } from "../../../../common/CommonAnt";
 import { useCreateRestaurantMutation } from "../../../Restaurants/api/restaurantsEndpoint";
-import { Col, Input, Row, Select } from "antd";
-import {
-  HarmonyOSOutlined,
-  ManOutlined,
-  WomanOutlined,
-} from "@ant-design/icons";
+import { Col, Input, Row } from "antd";
+
 
 const CreateClientCategoryModal = () => {
   const [create, { isLoading, isSuccess }] = useCreateRestaurantMutation();

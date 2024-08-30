@@ -2,7 +2,7 @@ import { Carousel, Descriptions, DescriptionsProps } from "antd";
 import { useParams } from "react-router-dom";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import { useSingleBlogItemQuery } from "../api/BlogEndPoints";
-import { TBlogDetailDataTypes } from "../types/BlogTypes";
+import { TBlogDataTypes } from "../types/BlogTypes";
 
 const BlogView = () => {
   const { blogId } = useParams();
@@ -22,7 +22,7 @@ const BlogView = () => {
     description,
     content,
     keyPoints,
-  }: TBlogDetailDataTypes = data?.data || {};
+  }: TBlogDataTypes = data?.data || {};
 
   const borderedItems: DescriptionsProps["items"] = [
     {

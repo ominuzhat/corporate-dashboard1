@@ -7,8 +7,6 @@ import {
   Form as AntForm,
   Button,
   Upload,
-  Switch,
-  message,
 } from "antd";
 import React, { useState, useEffect } from "react";
 import { PlusOutlined } from "@ant-design/icons";
@@ -33,6 +31,7 @@ const UpdateSectionItem: React.FC<Props> = React.memo(({ record }) => {
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
   const [fileList, setFileList] = useState<any[]>([]);
+  console.log(fileList)
 
   const sectionOptions =
     sectionData?.data?.map((section: any) => ({

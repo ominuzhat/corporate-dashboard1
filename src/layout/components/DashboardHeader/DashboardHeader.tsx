@@ -61,7 +61,7 @@ const DashboardHeader: React.FC<Props> = ({ setOpen }) => {
               strong
               style={{ display: "block", fontSize: "1.2rem" }}
             >
-              Hello, {data?.data?.name || "Corporate"}
+              Hello, {data?.data?.firstName || "Corporate"}
             </Typography.Text>
             <Typography.Text
               type="secondary"

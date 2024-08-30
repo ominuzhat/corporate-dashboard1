@@ -1,7 +1,6 @@
 import api from "../../../app/api/api";
 import { FilterTypes } from "../../../app/features/filterSlice";
 import { ApiResponse } from "../../../app/utils/constant";
-import { handleOnQueryStarted } from "../../../app/utils/onQueryStartedHandler";
 
 const clientEndpoint = api.injectEndpoints({
   endpoints: (builder) => ({

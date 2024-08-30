@@ -1,12 +1,8 @@
 import { useState } from "react";
 import { Button, Card, Col, Row } from "antd";
 
-import { Link } from "react-router-dom";
 import {
-  HarmonyOSOutlined,
-  ManOutlined,
   PlusOutlined,
-  WomanOutlined,
 } from "@ant-design/icons";
 import BreadCrumb from "../../../../common/BreadCrumb/BreadCrumb";
 import {

@@ -1,10 +1,7 @@
 import { Button, Card, Space, TableProps, Tag } from "antd";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import {
-  HarmonyOSOutlined,
-  ManOutlined,
   PlusOutlined,
-  WomanOutlined,
 } from "@ant-design/icons";
 import { Table } from "../../../common/CommonAnt";
 import EditButton from "../../../common/CommonAnt/Button/EditButton";
@@ -62,7 +59,7 @@ const columns: TableProps<DataType>["columns"] = [
   {
     title: "Action",
     key: "action",
-    render: (_, record) => (
+    render: () => (
       <Space size="middle">
         <EditButton>Edit</EditButton>
         <ViewButton to="/">View</ViewButton>

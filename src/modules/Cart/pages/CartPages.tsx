@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useGetCartQuery } from "../api/CartEndpoints";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import { Card, Col, Row } from "antd";
@@ -12,9 +12,8 @@ import { ProductsTypes } from "../types/CartTypes";
 const CartPages = () => {
   const [search, setSearch] = useState("");
   const [cartDataItem, setCartDataItem] = useState<ProductsTypes[]>([]);
-  const dispatch = useDispatch();
   const filter = useSelector((state: RootState) => ({
-    ...state.filter, // Assuming you have other filters in the state
+    ...state.filter,
     search,
   }));
 

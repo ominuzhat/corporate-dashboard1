@@ -1,15 +1,12 @@
 import { Space } from "antd";
 import { GlobalOutlined } from "@ant-design/icons";
-import { useDispatch } from "react-redux";
-import { showModal } from "../../../app/features/modalSlice";
-import EditButton from "../../../common/CommonAnt/Button/EditButton";
+
 import type { ColumnsType } from "antd/es/table";
 import DeleteButton from "../../../common/CommonAnt/Button/DeleteButton";
 import ViewButton from "../../../common/CommonAnt/Button/ViewButton";
 import { useDeleteOrderItemMutation } from "../api/OrderEndPoints";
 
 const useColumns = (): ColumnsType<any> => {
-  const dispatch = useDispatch();
   const [deleteCartItem] = useDeleteOrderItemMutation();
 
   const handleDelete = async (id: any) => {

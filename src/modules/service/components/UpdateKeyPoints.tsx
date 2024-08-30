@@ -1,7 +1,7 @@
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Col, Form, Input, Row, Space } from "antd";
 
-const UpdateKeyPoint = ({ record }) => {
+const UpdateKeyPoint = () => {
   return (
     <div>
       <Form.List name="keyPoints">

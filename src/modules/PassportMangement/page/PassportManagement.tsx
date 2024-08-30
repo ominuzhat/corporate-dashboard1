@@ -9,10 +9,7 @@ import {
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import { Link } from "react-router-dom";
 import {
-  HarmonyOSOutlined,
-  ManOutlined,
   PlusOutlined,
-  WomanOutlined,
 } from "@ant-design/icons";
 
 export interface DataType {

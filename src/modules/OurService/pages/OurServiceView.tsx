@@ -1,6 +1,5 @@
 import {
   Carousel,
-  Col,
   Collapse,
   Descriptions,
   DescriptionsProps,
