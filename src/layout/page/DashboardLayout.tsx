@@ -8,14 +8,17 @@ import SidebarDrawer from "../components/DashboardSidebar/SidebarDrawer";
 
 const { Content } = Layout;
 
-const DashboardLayout: React.FC = () => {
+interface DashboardLayoutProps {
+  role: string | null; // Define the role prop
+}
+
+const DashboardLayout: React.FC<DashboardLayoutProps> = ({ role }: any) => {
   const [open, setOpen] = useState<boolean>(false);
 
   return (
     <React.Fragment>
       <Layout className="dashboard-main-layout">
-        <DashboardSidebar />
-
+        <DashboardSidebar role={role} />{" "}
         <Layout id="contain-layout">
           <DashboardHeader setOpen={setOpen} />
           <Content>
@@ -23,11 +26,9 @@ const DashboardLayout: React.FC = () => {
               <Outlet />
             </div>
           </Content>
-
-          {/* <DashboardFooter /> */}
         </Layout>
       </Layout>
-      <SidebarDrawer open={open} setOpen={setOpen} />
+      <SidebarDrawer open={open} setOpen={setOpen} role={role} />
     </React.Fragment>
   );
 };

@@ -1,30 +1,25 @@
 import React from "react";
-import { useCreateUserMutation } from "../api/usersEndpoint";
-import { UsersTypes } from "../types/UsersTypes";
 import { Form } from "../../../common/CommonAnt";
-import { Input, Select } from "antd";
-import { useGetRestaurantsQuery } from "../../Restaurants/api/restaurantsEndpoint";
-import { RestaurantTypes } from "../../Restaurants/types/RestaurantTypes";
+import { Input } from "antd";
 import {
   emailValidator,
   passwordValidator,
   phoneValidator,
   nameValidator,
 } from "../../../utilities/validator";
+import { useCreateUserMutation } from "../api/usersEndPoint";
 
 const CreateUser: React.FC = React.memo(() => {
-  const { data } = useGetRestaurantsQuery(undefined);
-
   const [create, { isLoading, isSuccess }] = useCreateUserMutation();
 
-  const onFinish = (value: UsersTypes) => {
+  const onFinish = (value: any) => {
     create(value);
   };
 
   return (
     <React.Fragment>
       <Form onFinish={onFinish} isLoading={isLoading} isSuccess={isSuccess}>
-        <Form.Item<UsersTypes>
+        {/* <Form.Item<any>
           label="Select Restaurant"
           name="restaurant_id"
           rules={[{ required: true, message: "Restaurent is required" }]}
@@ -40,7 +35,7 @@ const CreateUser: React.FC = React.memo(() => {
                 .includes(input.toLowerCase())
             }
             options={data?.data?.map(
-              ({ restaurant_name, id }: RestaurantTypes) => {
+              ({ restaurant_name, id }: any) => {
                 return {
                   label: restaurant_name,
                   value: id,
@@ -48,9 +43,9 @@ const CreateUser: React.FC = React.memo(() => {
               }
             )}
           />
-        </Form.Item>
+        </Form.Item> */}
 
-        <Form.Item<UsersTypes>
+        <Form.Item<any>
           label="User Name"
           name="owner_name"
           rules={[{ required: true }, { validator: nameValidator }]}
@@ -58,7 +53,7 @@ const CreateUser: React.FC = React.memo(() => {
           <Input placeholder="Enter your user name" />
         </Form.Item>
 
-        <Form.Item<UsersTypes>
+        <Form.Item<any>
           label="Email Address"
           name="email"
           rules={[{ required: true }, { validator: emailValidator }]}
@@ -66,7 +61,7 @@ const CreateUser: React.FC = React.memo(() => {
           <Input placeholder="Email address" />
         </Form.Item>
 
-        <Form.Item<UsersTypes>
+        <Form.Item<any>
           label="Password"
           name="password"
           rules={[{ required: true }, { validator: passwordValidator }]}
@@ -74,7 +69,7 @@ const CreateUser: React.FC = React.memo(() => {
           <Input.Password placeholder="Password" />
         </Form.Item>
 
-        <Form.Item<UsersTypes>
+        <Form.Item<any>
           label="Phone Number"
           name="phone"
           rules={[{ required: true }, { validator: phoneValidator }]}
@@ -82,7 +77,7 @@ const CreateUser: React.FC = React.memo(() => {
           <Input addonBefore="+88" placeholder="017XXXXXXXX" />
         </Form.Item>
 
-        <Form.Item<UsersTypes>
+        <Form.Item<any>
           label="User Address"
           name="address"
           rules={[{ required: true, message: "Address is required" }]}

@@ -99,7 +99,7 @@ const officeInfoEndPoint = api.injectEndpoints({
         method: "PATCH",
         body: data,
       }),
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+      async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
         await handleOnQueryStarted(queryFulfilled, dispatch);
       },
       invalidatesTags: [{ type: "OfficeInfo", id: "OfficeInfo_ID" }],

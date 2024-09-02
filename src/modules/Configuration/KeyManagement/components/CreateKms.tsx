@@ -3,7 +3,7 @@ import React from "react";
 import { Form } from "../../../../common/CommonAnt";
 import { useCreateKmsMutation } from "../api/KmsEndPoints";
 import { TCreateKmsTypes } from "../types/KmsTypes";
-import { useGetUsersQuery } from "../../../Users/api/usersEndpoint";
+import { useGetUsersQuery } from "../../../Users/api/usersEndPoint";
 
 const CreateKms = () => {
   const [create, { isLoading, isSuccess }] = useCreateKmsMutation();

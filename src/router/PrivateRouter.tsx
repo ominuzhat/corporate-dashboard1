@@ -4,20 +4,20 @@ import { Navigate, useLocation } from "react-router-dom";
 import Loader from "../common/Loader/Loader";
 
 interface Props {
-  children: (role: string | null) => ReactNode; // Function that takes the role as argument
+  children: (role: string | null) => ReactNode;
 }
 
 const PrivateRouter: React.FC<Props> = ({ children }) => {
   const location = useLocation();
   const { data: profileData, isLoading, isSuccess } = useGetProfileQuery();
-  
+
   if (isLoading) {
     return <Loader />;
   }
 
   if (isSuccess) {
-    const role = profileData?.data?.role?.name || null; // Fetch the role from profile data
-    
+    const role = profileData?.data?.role?.name || null;
+
     // Render children with the role
     return <>{children(role)}</>;
   }

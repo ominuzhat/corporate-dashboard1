@@ -1,5 +1,4 @@
 import React from "react";
-import { useGetUsersQuery } from "../api/usersEndpoint";
 import { Table } from "../../../common/CommonAnt";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../app/store";
@@ -8,6 +7,7 @@ import EditButton from "../../../common/CommonAnt/Button/EditButton";
 import ViewButton from "../../../common/CommonAnt/Button/ViewButton";
 import { showModal } from "../../../app/features/modalSlice";
 import UpdateUsers from "./UpdateUsers";
+import { useGetUsersQuery } from "../api/usersEndPoint";
 
 const UsersTable: React.FC = () => {
   const filter = useSelector((state: RootState) => state.filter);

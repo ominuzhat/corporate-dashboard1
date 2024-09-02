@@ -8,9 +8,10 @@ import { ThemesTypes } from "../../../app/features/themeSlice";
 interface Props {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  role: any;
 }
 
-const SidebarDrawer: React.FC<Props> = ({ open, setOpen }) => {
+const SidebarDrawer: React.FC<Props> = ({ open, setOpen, role }) => {
   const { themes, color1, color2 } = useSelector<RootState, ThemesTypes>(
     (state) => state.themes
   );
@@ -26,7 +27,7 @@ const SidebarDrawer: React.FC<Props> = ({ open, setOpen }) => {
       className="sidebar-drawer"
       style={{ background: themes === "light" ? color1 : color2 }}
     >
-      <MenuData />
+      <MenuData role={role} />
     </Drawer>
   );
 };

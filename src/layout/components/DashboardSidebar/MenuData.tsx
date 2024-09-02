@@ -3,14 +3,14 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import Iconify from "../../../common/IconifyConfig/IconifyConfig";
 import SidebarTop from "./SidebarTop";
-import { useGetProfileQuery } from "../../../modules/Profile/api/profileEndpoint";
 import { constant } from "../../../common/constant/Constant";
 
-const MenuData: React.FC = () => {
-  const { pathname } = useLocation();
-  const { data: profileData } = useGetProfileQuery();
+interface MenuDataProps {
+  role: any;
+}
 
-  const { role } = profileData?.data || {};
+const MenuData: React.FC<MenuDataProps> = ({ role }: any) => {
+  const { pathname } = useLocation();
 
   const iconStyle: React.CSSProperties | undefined = {
     marginRight: "8px",
@@ -60,7 +60,7 @@ const MenuData: React.FC = () => {
         },
       ],
     },
-    ...(role?.name === constant.ROLE
+    ...(role === constant.ROLE
       ? [
           {
             key: "/user-management",
@@ -96,7 +96,7 @@ const MenuData: React.FC = () => {
           icon: <Iconify name="tdesign:course" style={subIconStyle} />,
           key: "/web-service",
         },
-        ...(role?.name === constant.ROLE
+        ...(role === constant.ROLE
           ? [
               {
                 label: <Link to="/key-management">Key Management</Link>,

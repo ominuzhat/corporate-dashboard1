@@ -1,6 +1,4 @@
 import React from "react";
-import { UsersTypes } from "../types/UsersTypes";
-import { useUpdateUserMutation } from "../api/usersEndpoint";
 import { Form } from "../../../common/CommonAnt";
 import { Input } from "antd";
 import {
@@ -8,15 +6,16 @@ import {
   nameValidator,
   phoneValidator,
 } from "../../../utilities/validator";
+import { useUpdateUserMutation } from "../api/usersEndPoint";
 
 interface Props {
-  record: UsersTypes;
+  record: any;
 }
 
 const UpdateUsers: React.FC<Props> = React.memo(({ record }) => {
   const [update, { isLoading, isSuccess }] = useUpdateUserMutation();
 
-  const onFinish = (value: UsersTypes) => {
+  const onFinish = (value: any) => {
     update({ id: record.id, data: value });
   };
 
@@ -28,7 +27,7 @@ const UpdateUsers: React.FC<Props> = React.memo(({ record }) => {
         isSuccess={isSuccess}
         defaultRecord={{ ...record }}
       >
-        <Form.Item<UsersTypes>
+        <Form.Item<any>
           label="User Name"
           name="owner_name"
           rules={[{ validator: nameValidator }]}
@@ -36,7 +35,7 @@ const UpdateUsers: React.FC<Props> = React.memo(({ record }) => {
           <Input placeholder="Enter your user name" />
         </Form.Item>
 
-        <Form.Item<UsersTypes>
+        <Form.Item<any>
           label="Email Address"
           name="email"
           rules={[{ validator: emailValidator }]}
@@ -44,7 +43,7 @@ const UpdateUsers: React.FC<Props> = React.memo(({ record }) => {
           <Input placeholder="Email address" />
         </Form.Item>
 
-        <Form.Item<UsersTypes>
+        <Form.Item<any>
           label="Phone Number"
           name="phone"
           rules={[{ validator: phoneValidator }]}
@@ -52,7 +51,7 @@ const UpdateUsers: React.FC<Props> = React.memo(({ record }) => {
           <Input addonBefore="+88" placeholder="017XXXXXXXX" />
         </Form.Item>
 
-        <Form.Item<UsersTypes> label="User Address" name="address">
+        <Form.Item<any> label="User Address" name="address">
           <Input placeholder="Address" />
         </Form.Item>
       </Form>

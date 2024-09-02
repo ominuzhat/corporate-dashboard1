@@ -5,7 +5,11 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../app/store";
 import { ThemesTypes } from "../../../app/features/themeSlice";
 
-const DashboardSidebar: React.FC = () => {
+interface DashboardSidebarProps {
+  role: string | null; // Define the role prop
+}
+
+const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ role }) => {
   const { themes, color1, darkColor } = useSelector<RootState, ThemesTypes>(
     (state) => state.themes
   );
@@ -18,7 +22,7 @@ const DashboardSidebar: React.FC = () => {
         background: themes === "light" ? color1 : darkColor,
       }}
     >
-      <MenuData />
+      <MenuData role={role} />
     </Layout.Sider>
   );
 };
