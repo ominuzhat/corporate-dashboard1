@@ -69,7 +69,7 @@ const UpdateBlog: React.FC<Props> = React.memo(({ record }) => {
     setRemovedImageIds((prev) => [...prev, file.uid]);
     message.info(`Removed ${file.name}`);
   };
-  
+
   const onFinish = (values: any): void => {
     const formData: any = new FormData();
     Object.entries(values).forEach(([key, value]) => {
@@ -88,7 +88,11 @@ const UpdateBlog: React.FC<Props> = React.memo(({ record }) => {
       }
     });
     formData.append("deleteImages", JSON.stringify(removedImageIds));
-    update({ id: record?.id, data: formData });
+    update({
+      id: record?.id,
+      data: formData,
+      successMessage: "Updated successfully!",
+    });
   };
 
   return (

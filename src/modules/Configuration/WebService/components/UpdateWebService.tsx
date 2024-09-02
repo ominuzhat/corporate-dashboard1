@@ -15,11 +15,19 @@ const UpdateWebService: React.FC<Props> = ({ record }) => {
   const [form] = AntForm.useForm();
 
   useEffect(() => {
-    form.setFieldsValue({ name: record?.name, url: record?.url, description: record?.description, });
+    form.setFieldsValue({
+      name: record?.name,
+      url: record?.url,
+      description: record?.description,
+    });
   }, [record, form]);
 
   const onFinish = (values: TWebServiceDataTypes): void => {
-    update({ id: record.id, data: values });
+    update({
+      id: record.id,
+      data: values,
+      successMessage: "Updated successfully!",
+    });
   };
 
   return (
@@ -34,7 +42,7 @@ const UpdateWebService: React.FC<Props> = ({ record }) => {
             >
               <Input placeholder="Name" />
             </AntForm.Item>
-          </Col> 
+          </Col>
           <Col span={12} lg={12}>
             <AntForm.Item<TCreateWebServiceTypes>
               label="Url"
@@ -43,7 +51,7 @@ const UpdateWebService: React.FC<Props> = ({ record }) => {
             >
               <Input placeholder="url" />
             </AntForm.Item>
-          </Col>          
+          </Col>
           <Col span={12} lg={12}>
             <AntForm.Item<TCreateWebServiceTypes>
               label="Description"

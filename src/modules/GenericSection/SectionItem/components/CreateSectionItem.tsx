@@ -145,7 +145,6 @@ const CreateSectionItem = () => {
               getValueFromEvent={(e) =>
                 Array.isArray(e) ? e.slice(-1) : e?.fileList.slice(-1)
               }
-              rules={[{ required: true, message: "Please upload an image!" }]}
             >
               <Upload
                 beforeUpload={() => false}

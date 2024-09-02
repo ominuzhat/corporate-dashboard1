@@ -1,5 +1,7 @@
 import api from "../../../../app/api/api";
 import { FilterTypes } from "../../../../app/features/filterSlice";
+import { closeModal } from "../../../../app/features/modalSlice";
+import { openNotification } from "../../../../app/features/notificationSlice";
 import { ApiResponse } from "../../../../app/utils/constant";
 import { handleOnQueryStarted } from "../../../../app/utils/onQueryStartedHandler";
 import {
@@ -32,6 +34,32 @@ const categoryEndpoint = api.injectEndpoints({
         url: `/category/${id}`,
         method: "DELETE",
       }),
+
+      async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+
+          dispatch(
+            openNotification({
+              type: "success",
+              message: data.message || " Deleted successfully!",
+            })
+          );
+          dispatch(closeModal());
+        } catch (error: any) {
+          const errorMessage =
+            error?.error?.data?.error?.message || "An unknown error occurred";
+
+          dispatch(
+            openNotification({
+              type: "error",
+              message: errorMessage,
+              placement: "topRight",
+            })
+          );
+        }
+      },
+
       invalidatesTags: [{ type: "Category", id: "Category_ID" }],
     }),
 
@@ -45,22 +73,48 @@ const categoryEndpoint = api.injectEndpoints({
         body: data,
       }),
       async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
-        await handleOnQueryStarted(queryFulfilled, dispatch);
+        try {
+          const { data } = await queryFulfilled;
+
+          dispatch(
+            openNotification({
+              type: "success",
+              message: data.message || "Created successfully!",
+            })
+          );
+          dispatch(closeModal());
+        } catch (error: any) {
+          const errorMessage =
+            error?.error?.data?.error?.message || "An unknown error occurred";
+
+          dispatch(
+            openNotification({
+              type: "error",
+              message: errorMessage,
+              placement: "topRight",
+            })
+          );
+        }
       },
       invalidatesTags: [{ type: "Category", id: "Category_ID" }],
     }),
 
     updateCategory: builder.mutation<
       ApiResponse<TCreateCategoryTypes>,
-      { id: number | undefined; data: TCreateCategoryTypes }
+      {
+        id: number | undefined;
+        data: TCreateCategoryTypes;
+        successMessage?: string;
+      }
     >({
       query: ({ id, data }) => ({
         url: `/category/${id}`,
         method: "PATCH",
         body: data,
       }),
-      async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
-        await handleOnQueryStarted(queryFulfilled, dispatch);
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        const { successMessage } = arg;
+        await handleOnQueryStarted(queryFulfilled, dispatch, successMessage);
       },
       invalidatesTags: [{ type: "Category", id: "Category_ID" }],
     }),

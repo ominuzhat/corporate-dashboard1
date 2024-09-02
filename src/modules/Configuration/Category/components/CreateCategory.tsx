@@ -9,7 +9,7 @@ const CreateCategory = () => {
   const [create, { isLoading, isSuccess }] = useCreateCategoryMutation();
   const { data: webServiceData }: any = useGetWebServiceQuery({});
 
-  const webServiceOptions =
+  const webServiceOptions = 
     webServiceData?.data?.map((service: any) => ({
       value: service?.id,
       label: service?.serviceId,

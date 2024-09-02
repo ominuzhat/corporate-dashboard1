@@ -31,7 +31,7 @@ const UpdateSectionItem: React.FC<Props> = React.memo(({ record }) => {
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
   const [fileList, setFileList] = useState<any[]>([]);
-  console.log(fileList)
+  console.log(fileList);
 
   const sectionOptions =
     sectionData?.data?.map((section: any) => ({
@@ -102,7 +102,11 @@ const UpdateSectionItem: React.FC<Props> = React.memo(({ record }) => {
       }
     });
 
-    update({ id: record?.id, data: formData });
+    update({
+      id: record?.id,
+      data: formData,
+      successMessage: "Updated successfully!",
+    });
   };
 
   return (

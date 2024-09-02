@@ -16,7 +16,8 @@ interface QueryError {
 
 export const handleOnQueryStarted = async <T>(
   queryFulfilled: Promise<QueryFulfilledResponse<T>>,
-  dispatch: Dispatch
+  dispatch: Dispatch,
+  successMessage?: string // Add successMessage parameter
 ) => {
   try {
     const response = await queryFulfilled;
@@ -24,7 +25,8 @@ export const handleOnQueryStarted = async <T>(
     dispatch(
       openNotification({
         type: "success",
-        message: response.data.message,
+        message:
+          successMessage || response.data.message || "Operation successful!",
       })
     );
   } catch (err) {
@@ -32,7 +34,7 @@ export const handleOnQueryStarted = async <T>(
     dispatch(
       openNotification({
         type: "error",
-        message: error.error.data.message,
+        message: error.error.data.message || "An unknown error occurred",
         placement: "bottomLeft",
       })
     );

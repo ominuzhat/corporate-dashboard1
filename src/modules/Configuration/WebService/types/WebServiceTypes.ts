@@ -4,6 +4,7 @@ export type TWebServiceDataTypes = {
   name?: string;
   description?: string;
   url?: string;
+  user?: number;
 };
 
 export type TCreateWebServiceTypes = {
@@ -11,4 +12,5 @@ export type TCreateWebServiceTypes = {
   description?: string;
   url?: string;
   webService?: number;
+  user?: number;
 };

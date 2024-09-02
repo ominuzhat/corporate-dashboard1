@@ -47,7 +47,10 @@ const UpdateOfficeInfo: React.FC<Props> = ({ record }) => {
   }, [record, form]);
 
   const onFinish = (): void => {
-    update({ id: record.id, data: form.getFieldsValue() });
+    update({
+      id: record.id,
+      data: form.getFieldsValue(),
+    });
   };
 
   return (

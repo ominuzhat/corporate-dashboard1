@@ -23,18 +23,25 @@ const UpdateCategory: React.FC<Props> = ({ record }) => {
     })) || [];
 
   useEffect(() => {
-    form.setFieldsValue({ name: record?.name, webService: record?.webService?.id });
+    form.setFieldsValue({
+      name: record?.name,
+      webService: record?.webService?.id,
+    });
   }, [record, form]);
 
   const onFinish = (values: TCategoryDataTypes): void => {
-    update({ id: record.id, data: values });
+    update({
+      id: record.id,
+      data: values,
+      successMessage: "Updated successfully!",
+    });
   };
 
   return (
     <React.Fragment>
       <AntForm form={form} layout="vertical" onFinish={onFinish}>
         <Row gutter={[10, 10]}>
-        <Col lg={6}>
+          <Col lg={6}>
             <AntForm.Item<TCreateCategoryTypes>
               label="Web Service"
               name="webService"

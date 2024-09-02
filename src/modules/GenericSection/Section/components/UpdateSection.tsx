@@ -100,7 +100,11 @@ const UpdateSection: React.FC<Props> = React.memo(({ record }) => {
       }
     });
 
-    update({ id: record?.id, data: formData });
+    update({
+      id: record?.id,
+      data: formData,
+      successMessage: "Updated successfully!",
+    });
   };
 
   return (

@@ -1,10 +1,7 @@
 import React, { useEffect } from "react";
 import { Col, Form as AntForm, Input, Row, Button, Select } from "antd";
 import { useUpdateKmsMutation } from "../api/KmsEndPoints";
-import {
-  TKmsDataTypes,
-  TUpdateKmsTypes,
-} from "../types/KmsTypes";
+import { TKmsDataTypes, TUpdateKmsTypes } from "../types/KmsTypes";
 import { useGetUsersQuery } from "../../../Users/api/usersEndpoint";
 
 interface Props {
@@ -28,20 +25,22 @@ const UpdateKms: React.FC<Props> = ({ record }) => {
   }, [record, form]);
 
   const onFinish = (values: TKmsDataTypes): void => {
-    update({ id: record.id, data: values });
+    update({
+      id: record.id,
+      data: values,
+      successMessage: "Updated successfully!",
+    });
   };
 
   return (
     <React.Fragment>
       <AntForm form={form} layout="vertical" onFinish={onFinish}>
         <Row gutter={[10, 10]}>
-        <Col lg={6}>
+          <Col lg={6}>
             <AntForm.Item<TUpdateKmsTypes>
               label="Client Id"
               name="clientId"
-              rules={[
-                { required: true, message: "please select a Client Id" },
-              ]}
+              rules={[{ required: true, message: "please select a Client Id" }]}
             >
               <Select
                 showSearch
@@ -60,7 +59,9 @@ const UpdateKms: React.FC<Props> = ({ record }) => {
             <AntForm.Item<TUpdateKmsTypes>
               label="Expiration Days"
               name="expirationDays"
-              rules={[{ required: true, message: "expiration days is required" }]}
+              rules={[
+                { required: true, message: "expiration days is required" },
+              ]}
             >
               <Input placeholder="10" />
             </AntForm.Item>

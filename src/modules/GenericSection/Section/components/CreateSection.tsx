@@ -30,15 +30,14 @@ const CreateSection = () => {
 
   const handleCancel = () => setPreviewVisible(false);
 
-
   const onFinish = (values: any): void => {
     const formData: FormData = new FormData();
-  
+
     Object.entries(values).forEach(([key, value]) => {
-      if (key === 'keyPoints' && typeof value === 'string') {
+      if (key === "keyPoints" && typeof value === "string") {
         formData.append(key, JSON.stringify([value]));
       } else if (Array.isArray(value)) {
-        if (key === 'keyPoints') {
+        if (key === "keyPoints") {
           formData.append(key, JSON.stringify(value));
         } else {
           value.forEach((file) => {
@@ -55,7 +54,6 @@ const CreateSection = () => {
     });
     create(formData);
   };
-  
 
   return (
     <React.Fragment>
@@ -154,7 +152,6 @@ const CreateSection = () => {
               getValueFromEvent={(e) =>
                 Array.isArray(e) ? e.slice(-1) : e?.fileList.slice(-1)
               }
-              rules={[{ required: true, message: "Please upload an image!" }]}
             >
               <Upload
                 beforeUpload={() => false}

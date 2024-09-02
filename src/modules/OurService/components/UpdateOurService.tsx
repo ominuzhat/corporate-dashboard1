@@ -130,7 +130,11 @@ const UpdateOurService: React.FC<Props> = React.memo(({ record }) => {
     formData.append("deleteFaqs", JSON.stringify(faqsToDelete));
     formData.append("addFaqs", JSON.stringify(faqsToAdd));
 
-    update({ id: record?.id, data: formData });
+    update({
+      id: record?.id,
+      data: formData,
+      successMessage: "Updated successfully!",
+    });
   };
 
   return (

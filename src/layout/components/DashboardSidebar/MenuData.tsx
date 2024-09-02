@@ -3,9 +3,14 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import Iconify from "../../../common/IconifyConfig/IconifyConfig";
 import SidebarTop from "./SidebarTop";
+import { useGetProfileQuery } from "../../../modules/Profile/api/profileEndpoint";
+import { constant } from "../../../common/constant/Constant";
 
 const MenuData: React.FC = () => {
   const { pathname } = useLocation();
+  const { data: profileData } = useGetProfileQuery();
+
+  const { role } = profileData?.data || {};
 
   const iconStyle: React.CSSProperties | undefined = {
     marginRight: "8px",
@@ -55,23 +60,27 @@ const MenuData: React.FC = () => {
         },
       ],
     },
-    {
-      key: "/user-management",
-      label: "User Management",
-      icon: <Iconify name="mdi:work" style={iconStyle} />,
-      children: [
-        {
-          label: <Link to="/user">User</Link>,
-          icon: <Iconify name="mdi:work" style={subIconStyle} />,
-          key: "/user",
-        },
-        {
-          label: <Link to="/role">Role</Link>,
-          icon: <Iconify name="mdi:work" style={subIconStyle} />,
-          key: "/role",
-        },
-      ],
-    },
+    ...(role?.name === constant.ROLE
+      ? [
+          {
+            key: "/user-management",
+            label: "User Management",
+            icon: <Iconify name="mdi:work" style={iconStyle} />,
+            children: [
+              {
+                label: <Link to="/user">User</Link>,
+                icon: <Iconify name="mdi:work" style={subIconStyle} />,
+                key: "/user",
+              },
+              {
+                label: <Link to="/role">Role</Link>,
+                icon: <Iconify name="mdi:work" style={subIconStyle} />,
+                key: "/role",
+              },
+            ],
+          },
+        ]
+      : []),
     {
       key: "/configuration",
       label: "Configuration",
@@ -87,11 +96,15 @@ const MenuData: React.FC = () => {
           icon: <Iconify name="tdesign:course" style={subIconStyle} />,
           key: "/web-service",
         },
-        {
-          label: <Link to="/key-management">Key Management</Link>,
-          icon: <Iconify name="tdesign:course" style={subIconStyle} />,
-          key: "/key-management",
-        },
+        ...(role?.name === constant.ROLE
+          ? [
+              {
+                label: <Link to="/key-management">Key Management</Link>,
+                icon: <Iconify name="tdesign:course" style={subIconStyle} />,
+                key: "/key-management",
+              },
+            ]
+          : []),
       ],
     },
   ];

@@ -7,10 +7,15 @@ import {
   TWebServiceDataTypes,
   TCreateWebServiceTypes,
 } from "../types/WebServiceTypes";
+import { openNotification } from "../../../../app/features/notificationSlice";
+import { closeModal } from "../../../../app/features/modalSlice";
 
 const webServiceEndpoint = api.injectEndpoints({
   endpoints: (builder) => ({
-    getWebService: builder.query<ApiResponse<TWebServiceDataTypes[]>, FilterTypes>({
+    getWebService: builder.query<
+      ApiResponse<TWebServiceDataTypes[]>,
+      FilterTypes
+    >({
       query: (params) => ({
         url: "/web-service",
         params,
@@ -33,6 +38,32 @@ const webServiceEndpoint = api.injectEndpoints({
         url: `/web-service/${id}`,
         method: "DELETE",
       }),
+
+      async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+
+          dispatch(
+            openNotification({
+              type: "success",
+              message: data.message || " Deleted successfully!",
+            })
+          );
+          dispatch(closeModal());
+        } catch (error: any) {
+          const errorMessage =
+            error?.error?.data?.error?.message || "An unknown error occurred";
+
+          dispatch(
+            openNotification({
+              type: "error",
+              message: errorMessage,
+              placement: "topRight",
+            })
+          );
+        }
+      },
+
       invalidatesTags: [{ type: TagTypes.WEBSERVICE, id: "WebService_ID" }],
     }),
 
@@ -45,23 +76,50 @@ const webServiceEndpoint = api.injectEndpoints({
         method: "POST",
         body: data,
       }),
+
       async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
-        await handleOnQueryStarted(queryFulfilled, dispatch);
+        try {
+          const { data } = await queryFulfilled;
+
+          dispatch(
+            openNotification({
+              type: "success",
+              message: data.message || "Web service created successfully!",
+            })
+          );
+          dispatch(closeModal());
+        } catch (error: any) {
+          const errorMessage =
+            error?.error?.data?.error?.message || "An unknown error occurred";
+
+          dispatch(
+            openNotification({
+              type: "error",
+              message: errorMessage,
+              placement: "topRight",
+            })
+          );
+        }
       },
       invalidatesTags: [{ type: TagTypes.WEBSERVICE, id: "WebService_ID" }],
     }),
 
     updateWebService: builder.mutation<
       ApiResponse<TCreateWebServiceTypes>,
-      { id: number | undefined; data: TCreateWebServiceTypes }
+      {
+        id: number | undefined;
+        data: TCreateWebServiceTypes;
+        successMessage?: string;
+      }
     >({
       query: ({ id, data }) => ({
         url: `/web-service/${id}`,
         method: "PATCH",
         body: data,
       }),
-      async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
-        await handleOnQueryStarted(queryFulfilled, dispatch);
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        const { successMessage } = arg;
+        await handleOnQueryStarted(queryFulfilled, dispatch, successMessage);
       },
       invalidatesTags: [{ type: TagTypes.WEBSERVICE, id: "WebService_ID" }],
     }),

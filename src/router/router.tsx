@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import DashboardLayout from "../layout/page/DashboardLayout";
 import ErrorPage from "../common/ErrorPage/ErrorPage";
 import Login from "../modules/Auth/page/Login";
@@ -29,11 +29,14 @@ import UserView from "../modules/UserManagement/User/pages/UserView";
 import UserPage from "../modules/UserManagement/User/pages/UserPage";
 import RoleView from "../modules/UserManagement/Role/pages/RoleView";
 import RolePage from "../modules/UserManagement/Role/pages/RolePage";
+import { constant } from "../common/constant/Constant";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <PrivateRouter children={<DashboardLayout />} />,
+    element: (
+      <PrivateRouter>{(role) => <DashboardLayout role={role} />}</PrivateRouter>
+    ),
     errorElement: <ErrorPage />,
     children: [
       {
@@ -166,20 +169,66 @@ const router = createBrowserRouter([
           },
         ],
       },
+
       {
         path: "/key-management",
-        element: <Accounts />,
+        element: (
+          <PrivateRouter>
+            {(role) =>
+              role === constant.ROLE ? (
+                <Accounts />
+              ) : (
+                <Navigate to="/" replace />
+              )
+            }
+          </PrivateRouter>
+        ),
         children: [
           {
             path: "/key-management",
-            element: <KmsPage />,
+            element: (
+              <PrivateRouter>
+                {(role) =>
+                  role === constant.ROLE ? (
+                    <KmsPage />
+                  ) : (
+                    <Navigate to="/" replace />
+                  )
+                }
+              </PrivateRouter>
+            ),
           },
           {
             path: ":kmsId",
-            element: <KmsView />,
+            element: (
+              <PrivateRouter>
+                {(role) =>
+                  role === constant.ROLE ? (
+                    <KmsView />
+                  ) : (
+                    <Navigate to="/" replace />
+                  )
+                }
+              </PrivateRouter>
+            ),
           },
         ],
       },
+
+      // {
+      //   path: "/key-management",
+      //   element: <Accounts />,
+      //   children: [
+      //     {
+      //       path: "/key-management",
+      //       element: <KmsPage />,
+      //     },
+      //     {
+      //       path: ":kmsId",
+      //       element: <KmsView />,
+      //     },
+      //   ],
+      // },
 
       // {
       //   path: "/user/view",
