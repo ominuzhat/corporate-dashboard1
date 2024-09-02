@@ -7,7 +7,7 @@ import EditButton from "../../../common/CommonAnt/Button/EditButton";
 import ViewButton from "../../../common/CommonAnt/Button/ViewButton";
 import { showModal } from "../../../app/features/modalSlice";
 import UpdateUsers from "./UpdateUsers";
-import { useGetUsersQuery } from "../api/usersEndPoint";
+import { useGetUsersQuery } from "../api/usersEndpoint";
 
 const UsersTable: React.FC = () => {
   const filter = useSelector((state: RootState) => state.filter);

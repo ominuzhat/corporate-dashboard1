@@ -7,7 +7,7 @@ import {
   phoneValidator,
   nameValidator,
 } from "../../../utilities/validator";
-import { useCreateUserMutation } from "../api/usersEndPoint";
+import { useCreateUserMutation } from "../api/usersEndpoint";
 
 const CreateUser: React.FC = React.memo(() => {
   const [create, { isLoading, isSuccess }] = useCreateUserMutation();

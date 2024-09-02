@@ -6,7 +6,7 @@ import {
   nameValidator,
   phoneValidator,
 } from "../../../utilities/validator";
-import { useUpdateUserMutation } from "../api/usersEndPoint";
+import { useUpdateUserMutation } from "../api/usersEndpoint";
 
 interface Props {
   record: any;

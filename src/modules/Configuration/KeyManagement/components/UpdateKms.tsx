@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Col, Form as AntForm, Input, Row, Button, Select } from "antd";
 import { useUpdateKmsMutation } from "../api/KmsEndPoints";
 import { TKmsDataTypes, TUpdateKmsTypes } from "../types/KmsTypes";
-import { useGetUsersQuery } from "../../../Users/api/usersEndPoint";
+import { useGetUsersQuery } from "../../../Users/api/usersEndpoint";
 
 interface Props {
   record: TKmsDataTypes;
