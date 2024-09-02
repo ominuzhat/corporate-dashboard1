@@ -29,7 +29,7 @@ const UpdateSection: React.FC<Props> = React.memo(({ record }) => {
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
   const [fileList, setFileList] = useState<any[]>([]);
-console.log(fileList)
+  console.log(fileList);
   const webServiceOptions =
     webServiceData?.data.map((service: any) => ({
       value: service?.id,
@@ -73,7 +73,7 @@ console.log(fileList)
 
   const handleUploadChange = ({ fileList }: any) => {
     setFileList(fileList);
-    form.setFieldsValue({ image: fileList }); // Ensure form state is updated
+    form.setFieldsValue({ image: fileList });
   };
 
   const onFinish = (values: any): void => {
@@ -131,6 +131,11 @@ console.log(fileList)
           <Col lg={8}>
             <AntForm.Item label="Title" name="title">
               <Input placeholder="Section Title." />
+            </AntForm.Item>
+          </Col>
+          <Col lg={8}>
+            <AntForm.Item label="Section Name" name="sectionName">
+              <Input placeholder="Section Name" />
             </AntForm.Item>
           </Col>
           <Col lg={8}>
