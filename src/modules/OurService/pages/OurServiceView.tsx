@@ -17,7 +17,6 @@ const OurServiceView = () => {
   const { data } = useSingleOurServiceItemQuery({ id: Number(ourServiceId) });
 
   const {
-    webService,
     title,
     subtitle,
     slug,
@@ -33,11 +32,6 @@ const OurServiceView = () => {
   }: TOurServiceDataTypes = data?.data || {};
 
   const borderedItems: DescriptionsProps["items"] = [
-    {
-      key: "2",
-      label: <div className="custom-label font-bold">Web Service ID</div>,
-      children: <div>{webService?.serviceId || "N/A"}</div>,
-    },
     {
       key: "9",
       label: <div className="custom-label font-bold">Category</div>,

@@ -35,7 +35,6 @@ export type TCreateBlogTypes = {
   images?: any[];
   keyPoints?: string[];
   category: number;
-  webService?: number;
 };
 
 export type TUpdateBlogTypes = {

@@ -1,19 +1,10 @@
-import { Card, Col, Input, Row, Select } from "antd";
+import { Card, Col, Input, Row } from "antd";
 import { Form } from "../../../common/CommonAnt";
 import { useCreateOfficeInfoMutation } from "../api/OfficeInfoEndPoints";
 import { TOfficeInfoData } from "../types/officeInfoTypes";
-import { useGetWebServiceQuery } from "../../Configuration/WebService/api/WebServiceEndPoints";
-import { TCreateCategoryTypes } from "../../Configuration/Category/types/CategoryTypes";
 
 const CreateOfficeInfo = () => {
   const [create, { isLoading, isSuccess }] = useCreateOfficeInfoMutation();
-  const { data: webServiceData }: any = useGetWebServiceQuery({});
-
-  const webServiceOptions =
-    webServiceData?.data?.map((service: any) => ({
-      value: service?.id,
-      label: service?.serviceId,
-    })) || [];
 
   const onFinish = (values: any): void => {
     create(values);
@@ -23,27 +14,6 @@ const CreateOfficeInfo = () => {
     <div>
       <Form onFinish={onFinish} isLoading={isLoading} isSuccess={isSuccess}>
         <Row gutter={16}>
-        <Col lg={6}>
-            <Form.Item<TCreateCategoryTypes>
-              label="Web Service"
-              name="webService"
-              rules={[
-                { required: true, message: "please select a web service" },
-              ]}
-            >
-              <Select
-                showSearch
-                placeholder="Select Web Service"
-                filterOption={(input, option) =>
-                  (option?.label ?? "")
-                    .toString()
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-                options={webServiceOptions}
-              />
-            </Form.Item>
-          </Col>
           <Col lg={8}>
             <Form.Item<TOfficeInfoData>
               label="Owner Name"

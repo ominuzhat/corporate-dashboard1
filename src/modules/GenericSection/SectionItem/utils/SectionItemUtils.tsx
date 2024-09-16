@@ -33,15 +33,15 @@ const useColumns = (): ColumnsType<TSectionItemDataTypes> => {
       title: "Section",
       align: "center",
       dataIndex: "genericPageSection",
-      render: (genericPageSection) => (genericPageSection?.webService?.serviceId ? genericPageSection?.webService?.serviceId + " - " + genericPageSection.sectionName : "N/A"),
-    },   
+      render: (genericPageSection) => genericPageSection?.sectionName,
+    },
     {
       key: "2",
       title: "Title",
       align: "center",
       dataIndex: "title",
       render: (title) => (title ? title : "N/A"),
-    }, 
+    },
     {
       title: "Actions",
       align: "center",

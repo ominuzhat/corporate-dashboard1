@@ -9,7 +9,6 @@ const SectionView = () => {
   const { data } = useSingleSectionQuery({ id: Number(sectionId) });
 
   const {
-    webService,
     title,
     subtitle,
     image,
@@ -19,11 +18,6 @@ const SectionView = () => {
   }: TSectionDataTypes = data?.data || {};
 
   const borderedItems: DescriptionsProps["items"] = [
-    {
-      key: "2",
-      label: <div className="custom-label font-bold">Web Service ID</div>,
-      children: <div>{webService?.serviceId || "N/A"}</div>,
-    },
     {
       key: "3",
       label: <div className="custom-label font-bold">Title</div>,

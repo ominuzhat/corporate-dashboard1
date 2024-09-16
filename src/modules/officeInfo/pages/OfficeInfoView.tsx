@@ -26,7 +26,6 @@ const OfficeInfoView = () => {
     facebook,
     twitter,
     instagram,
-    webService,
   } = data?.data || {};
 
 
@@ -120,21 +119,6 @@ const OfficeInfoView = () => {
       key: "18",
       label: <div className="custom-label font-bold">Instagram</div>,
       children: <div>{instagram}</div>,
-    },
-    {
-      key: "19",
-      label: <div className="custom-label font-bold">Web Service ID</div>,
-      children: <div>{webService?.id}</div>,
-    },
-    {
-      key: "20",
-      label: <div className="custom-label font-bold">Service ID</div>,
-      children: <div>{webService?.serviceId}</div>,
-    },
-    {
-      key: "21",
-      label: <div className="custom-label font-bold">User Email</div>,
-      children: <div>{webService?.user?.email}</div>,
     },
   ];
 

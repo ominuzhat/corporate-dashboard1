@@ -36,21 +36,6 @@ const useColumns = (): ColumnsType<TCategoryDataTypes> => {
       render: (title) => (title ? title : "N/A"),
     },
     {
-      key: "2",
-      title: "Web Service Id",
-      align: "center",
-      dataIndex: "webService",
-      render: (webService) =>
-        webService?.serviceId ? webService?.serviceId : "N/A",
-    },
-    {
-      key: "3",
-      title: "Service Id",
-      align: "center",
-      dataIndex: "webService",
-      render: (webService) => (webService?.id ? webService?.id : "N/A"),
-    },
-    {
       title: "Actions",
       align: "center",
       render: (record) => (

@@ -1,35 +1,36 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
-import DashboardLayout from "../layout/page/DashboardLayout";
+import { createBrowserRouter } from "react-router-dom";
 import ErrorPage from "../common/ErrorPage/ErrorPage";
-import Login from "../modules/Auth/page/Login";
-import Dashboard from "../modules/Dashboard/page/Dashboard";
-import Profile from "../modules/Profile/page/Profile";
+import DashboardLayout from "../layout/page/DashboardLayout";
 import Accounts from "../modules/Accounts/pages/Accounts";
-import SendOTP from "../modules/Auth/components/SendOTP";
-import MatchOTP from "../modules/Auth/components/MatchOTP";
 import ForgotPassword from "../modules/Auth/components/ForgotPassword";
-import CategoryPage from "../modules/Configuration/Category/pages/CategoryPage";
-import OfficeInfoPage from "../modules/officeInfo/pages/OfficeInfoPage";
-import PrivateRouter from "./PrivateRouter";
-import WebServicePage from "../modules/Configuration/WebService/pages/WebServicePage";
-import KmsPage from "../modules/Configuration/KeyManagement/pages/KmsPage";
-import CategoryView from "../modules/Configuration/Category/pages/CategoryView";
-import WebServiceView from "../modules/Configuration/WebService/pages/WebServiceView";
-import KmsView from "../modules/Configuration/KeyManagement/pages/KmsView";
-import OfficeInfoView from "../modules/officeInfo/pages/OfficeInfoView";
+import MatchOTP from "../modules/Auth/components/MatchOTP";
+import SendOTP from "../modules/Auth/components/SendOTP";
+import Login from "../modules/Auth/page/Login";
 import BlogPage from "../modules/Blog/pages/BlogPage";
 import BlogView from "../modules/Blog/pages/BlogView";
+import CategoryPage from "../modules/Configuration/Category/pages/CategoryPage";
+import CategoryView from "../modules/Configuration/Category/pages/CategoryView";
+import ProductCategoryPage from "../modules/Configuration/ProductCategory/pages/ProductCategoryPage";
+import ProductCategoryView from "../modules/Configuration/ProductCategory/pages/ProductCategoryView";
+import TagPage from "../modules/Configuration/Tag/pages/TagPage";
+import TagView from "../modules/Configuration/Tag/pages/TagView";
+import Dashboard from "../modules/Dashboard/page/Dashboard";
 import SectionPage from "../modules/GenericSection/Section/pages/SectionPage";
 import SectionView from "../modules/GenericSection/Section/pages/SectionView";
-import SectionItemView from "../modules/GenericSection/SectionItem/pages/SectionItemView";
 import SectionItemPage from "../modules/GenericSection/SectionItem/pages/SectionItemPage";
+import SectionItemView from "../modules/GenericSection/SectionItem/pages/SectionItemView";
+import OfficeInfoPage from "../modules/officeInfo/pages/OfficeInfoPage";
+import OfficeInfoView from "../modules/officeInfo/pages/OfficeInfoView";
 import OurServicePage from "../modules/OurService/pages/OurServicePage";
 import OurServiceView from "../modules/OurService/pages/OurServiceView";
-import UserView from "../modules/UserManagement/User/pages/UserView";
-import UserPage from "../modules/UserManagement/User/pages/UserPage";
-import RoleView from "../modules/UserManagement/Role/pages/RoleView";
+import ProductPage from "../modules/Product/pages/ProductPage";
+import ProductView from "../modules/Product/pages/ProductView";
+import Profile from "../modules/Profile/page/Profile";
 import RolePage from "../modules/UserManagement/Role/pages/RolePage";
-import { constant } from "../common/constant/Constant";
+import RoleView from "../modules/UserManagement/Role/pages/RoleView";
+import UserPage from "../modules/UserManagement/User/pages/UserPage";
+import UserView from "../modules/UserManagement/User/pages/UserView";
+import PrivateRouter from "./PrivateRouter";
 
 const router = createBrowserRouter([
   {
@@ -72,6 +73,20 @@ const router = createBrowserRouter([
         ],
       },
       {
+        path: "/product",
+        element: <Accounts />,
+        children: [
+          {
+            path: "/product",
+            element: <ProductPage />,
+          },
+          {
+            path: ":productId",
+            element: <ProductView />,
+          },
+        ],
+      },
+      {
         path: "/blog",
         element: <Accounts />,
         children: [
@@ -86,6 +101,20 @@ const router = createBrowserRouter([
         ],
       },
       {
+        path: "/tag",
+        element: <Accounts />,
+        children: [
+          {
+            path: "/tag",
+            element: <TagPage />,
+          },
+          {
+            path: ":categoryId",
+            element: <TagView />,
+          },
+        ],
+      },
+      {
         path: "/category",
         element: <Accounts />,
         children: [
@@ -96,6 +125,20 @@ const router = createBrowserRouter([
           {
             path: ":categoryId",
             element: <CategoryView />,
+          },
+        ],
+      },
+      {
+        path: "/product-category",
+        element: <Accounts />,
+        children: [
+          {
+            path: "/product-category",
+            element: <ProductCategoryPage />,
+          },
+          {
+            path: ":productCategoryId",
+            element: <ProductCategoryView />,
           },
         ],
       },
@@ -155,66 +198,6 @@ const router = createBrowserRouter([
           },
         ],
       },
-      {
-        path: "/web-service",
-        element: <Accounts />,
-        children: [
-          {
-            path: "/web-service",
-            element: <WebServicePage />,
-          },
-          {
-            path: ":webServiceId",
-            element: <WebServiceView />,
-          },
-        ],
-      },
-
-      {
-        path: "/key-management",
-        element: (
-          <PrivateRouter>
-            {(role) =>
-              role === constant.ROLE ? (
-                <Accounts />
-              ) : (
-                <Navigate to="/" replace />
-              )
-            }
-          </PrivateRouter>
-        ),
-        children: [
-          {
-            path: "/key-management",
-            element: (
-              <PrivateRouter>
-                {(role) =>
-                  role === constant.ROLE ? (
-                    <KmsPage />
-                  ) : (
-                    <Navigate to="/" replace />
-                  )
-                }
-              </PrivateRouter>
-            ),
-          },
-          {
-            path: ":kmsId",
-            element: (
-              <PrivateRouter>
-                {(role) =>
-                  role === constant.ROLE ? (
-                    <KmsView />
-                  ) : (
-                    <Navigate to="/" replace />
-                  )
-                }
-              </PrivateRouter>
-            ),
-          },
-        ],
-      },
-
       // {
       //   path: "/key-management",
       //   element: <Accounts />,

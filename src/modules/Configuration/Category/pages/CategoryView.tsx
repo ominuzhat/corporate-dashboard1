@@ -7,7 +7,7 @@ const CategoryView = () => {
   const { categoryId } = useParams();
   const { data } = useSingleCategoryItemQuery({ id: Number(categoryId) });
 
-  const { name, webService } = data?.data || {};
+  const { name } = data?.data || {};
 
   const borderedItems: DescriptionsProps["items"] = [
     {
@@ -15,21 +15,6 @@ const CategoryView = () => {
       label: <div className="custom-label font-bold">name</div>,
       children: <div>{name}</div>,
     },   
-    {
-      key: "2",
-      label: <div className="custom-label font-bold">webService id</div>,
-      children: <div>{webService?.id}</div>,
-    },    
-    {
-      key: "3",
-      label: <div className="custom-label font-bold">Service Id</div>,
-      children: <div>{webService?.serviceId}</div>,
-    },    
-    {
-      key: "4",
-      label: <div className="custom-label font-bold">User Email</div>,
-      children: <div>{webService?.user?.email}</div>,
-    },
   ];
   return (
     <div>

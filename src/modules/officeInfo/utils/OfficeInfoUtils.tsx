@@ -29,14 +29,6 @@ const useOfficeInfoColumns = (): ColumnsType<any> => {
     //   render: (_text, _record, index) => index + 1,
     // },
     {
-      key: "34",
-      title: "Service Id",
-      dataIndex: "webService",
-      align: "center",
-      render: (webService) =>
-        webService?.serviceId ? webService?.serviceId : "N/A",
-    },
-    {
       key: "1",
       title: "Owner Name",
       dataIndex: "ownerName",

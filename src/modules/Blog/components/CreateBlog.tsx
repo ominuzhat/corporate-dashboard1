@@ -3,20 +3,29 @@ import React, { useState } from "react";
 import { Form } from "../../../common/CommonAnt";
 import { useCreateBlogMutation } from "../api/BlogEndPoints";
 import { TCreateBlogTypes } from "../types/BlogTypes";
-import { useGetWebServiceQuery } from "../../Configuration/WebService/api/WebServiceEndPoints";
 import { PlusOutlined } from "@ant-design/icons";
 import { useGetCategoryQuery } from "../../Configuration/Category/api/CategoryEndPoints";
+import "react-quill/dist/quill.snow.css";
+import ReactQuill from "react-quill";
+
+const quilModules: any = {
+  toolbar: [
+    [{ header: "1" }, { header: "2" }, { font: [] }],
+    ["bold", "italic", "underline", "strike"],
+    [{ list: "ordered" }, { list: "bullet" }],
+    [{ indent: "-1" }, { indent: "+1" }],
+    [{ align: [] }],
+    [{ color: [] }, { background: [] }],
+    ["blockquote", "code-block"],
+    ["link", "image", "video"],
+    ["clean"],
+  ],
+};
 
 const CreateBlog = () => {
   const [create, { isLoading, isSuccess }] = useCreateBlogMutation();
-  const { data: webServiceData }: any = useGetWebServiceQuery({});
   const { data: categoryData }: any = useGetCategoryQuery({});
-
-  const webServiceOptions =
-    webServiceData?.data?.map((service: any) => ({
-      value: service?.id,
-      label: service?.serviceId,
-    })) || [];
+  const [description, setDescription] = useState("");
 
   const categoryOptions =
     categoryData?.data?.map((service: any) => ({
@@ -59,28 +68,6 @@ const CreateBlog = () => {
     <React.Fragment>
       <Form onFinish={onFinish} isLoading={isLoading} isSuccess={isSuccess}>
         <Row gutter={[10, 10]}>
-          <Col lg={12}>
-            <Form.Item<TCreateBlogTypes>
-              label="Web Service"
-              name="webService"
-              rules={[
-                { required: true, message: "Please select a web service" },
-              ]}
-            >
-              <Select
-                showSearch
-                placeholder="Select Web Service"
-                filterOption={(input, option) =>
-                  (option?.label ?? "")
-                    .toString()
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-                options={webServiceOptions}
-              />
-            </Form.Item>
-          </Col>
-
           <Col lg={12}>
             <Form.Item<TCreateBlogTypes>
               label="Category"
@@ -164,7 +151,14 @@ const CreateBlog = () => {
               name="description"
               rules={[{ required: true, message: "Description is required" }]}
             >
-              <Input.TextArea placeholder="Description" rows={4} />
+              <ReactQuill
+                value={description}
+                onChange={setDescription}
+                placeholder="Enter description here..."
+                theme="snow"
+                style={{ height: "200px" }}
+                modules={quilModules}
+              />
             </Form.Item>
           </Col>
 

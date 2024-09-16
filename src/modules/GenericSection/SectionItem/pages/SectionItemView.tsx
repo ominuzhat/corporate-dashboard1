@@ -25,11 +25,6 @@ const SectionItemView = () => {
       children: <div>{genericPageSection?.sectionName || "N/A"}</div>,
     },    
     {
-      key: "22",
-      label: <div className="custom-label font-bold">Service Id</div>,
-      children: <div>{genericPageSection?.webService?.serviceId || "N/A"}</div>,
-    },
-    {
       key: "3",
       label: <div className="custom-label font-bold">Title</div>,
       children: <div>{title}</div>,

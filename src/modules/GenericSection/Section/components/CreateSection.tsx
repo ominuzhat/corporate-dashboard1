@@ -3,22 +3,31 @@ import React, { useState } from "react";
 import { Form } from "../../../../common/CommonAnt";
 import { useCreateSectionMutation } from "../api/SectionEndPoints";
 import { TCreateSectionTypes } from "../types/SectionTypes";
-import { useGetWebServiceQuery } from "../../../Configuration/WebService/api/WebServiceEndPoints";
 import { PlusOutlined } from "@ant-design/icons";
+import "react-quill/dist/quill.snow.css";
+import ReactQuill from "react-quill";
+
+const quilModules: any = {
+  toolbar: [
+    [{ header: "1" }, { header: "2" }, { font: [] }],
+    ["bold", "italic", "underline", "strike"],
+    [{ list: "ordered" }, { list: "bullet" }],
+    [{ indent: "-1" }, { indent: "+1" }],
+    [{ align: [] }],
+    [{ color: [] }, { background: [] }],
+    ["blockquote", "code-block"],
+    ["link", "image", "video"],
+    ["clean"],
+  ],
+};
 
 const CreateSection = () => {
   const [create, { isLoading, isSuccess }] = useCreateSectionMutation();
-  const { data: webServiceData }: any = useGetWebServiceQuery({});
-
-  const webServiceOptions =
-    webServiceData?.data?.map((service: any) => ({
-      value: service?.id,
-      label: service?.serviceId,
-    })) || [];
 
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
+  const [description, setDescription] = useState("");
 
   const handlePreview = async (file: any) => {
     setPreviewImage(file.thumbUrl || file.url);
@@ -59,27 +68,6 @@ const CreateSection = () => {
     <React.Fragment>
       <Form onFinish={onFinish} isLoading={isLoading} isSuccess={isSuccess}>
         <Row gutter={[10, 10]}>
-          <Col lg={12}>
-            <Form.Item<TCreateSectionTypes>
-              label="Web Service"
-              name="webService"
-              rules={[
-                { required: true, message: "Please select a web service" },
-              ]}
-            >
-              <Select
-                showSearch
-                placeholder="Select Web Service"
-                filterOption={(input, option) =>
-                  (option?.label ?? "")
-                    .toString()
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-                options={webServiceOptions}
-              />
-            </Form.Item>
-          </Col>
           <Col span={12} lg={12}>
             <Form.Item<TCreateSectionTypes>
               label="Section Name"
@@ -113,7 +101,14 @@ const CreateSection = () => {
               name="description"
               rules={[{ required: true, message: "Description is required" }]}
             >
-              <Input.TextArea placeholder="Description" rows={4} />
+              <ReactQuill
+                value={description}
+                onChange={setDescription}
+                placeholder="Enter description here..."
+                theme="snow"
+                style={{ height: "200px" }}
+                modules={quilModules}
+              />
             </Form.Item>
           </Col>
           <Col span={24} lg={24}>

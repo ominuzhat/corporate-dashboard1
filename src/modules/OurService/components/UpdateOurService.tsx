@@ -17,6 +17,22 @@ import {
 } from "../api/OurServiceEndPoints";
 import { useGetCategoryQuery } from "../../Configuration/Category/api/CategoryEndPoints";
 import { TOurServiceFAQ } from "../types/OurServiceTypes";
+import "react-quill/dist/quill.snow.css";
+import ReactQuill from "react-quill";
+
+const quilModules: any = {
+  toolbar: [
+    [{ header: "1" }, { header: "2" }, { font: [] }],
+    ["bold", "italic", "underline", "strike"],
+    [{ list: "ordered" }, { list: "bullet" }],
+    [{ indent: "-1" }, { indent: "+1" }],
+    [{ align: [] }],
+    [{ color: [] }, { background: [] }],
+    ["blockquote", "code-block"],
+    ["link", "image", "video"],
+    ["clean"],
+  ],
+};
 
 interface Props {
   record: any;
@@ -34,9 +50,11 @@ const UpdateOurService: React.FC<Props> = React.memo(({ record }) => {
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
   const [removedImageIds, setRemovedImageIds] = useState<number[]>([]);
+  const [description, setDescription] = useState("");
 
   useEffect(() => {
     if (singleOurService) {
+      setDescription(singleOurService.data.description || "");
       form.setFieldsValue({
         title: singleOurService.data.title || "",
         contentTitle: singleOurService.data.contentTitle || "",
@@ -216,7 +234,14 @@ const UpdateOurService: React.FC<Props> = React.memo(({ record }) => {
           </Col>
           <Col lg={24}>
             <AntForm.Item label="Description" name="description">
-              <Input placeholder="Description" />
+              <ReactQuill
+                value={description}
+                onChange={setDescription}
+                placeholder="Enter description here..."
+                theme="snow"
+                style={{ height: "200px" }}
+                modules={quilModules}
+              />
             </AntForm.Item>
           </Col>
           <Col lg={24}>

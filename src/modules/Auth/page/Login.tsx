@@ -140,7 +140,7 @@ const Login: React.FC = () => {
                   style={{ width: "50%", height: "100%", objectFit: "contain" }}
                 /> */}
                 <Typography.Text className="login-header-title">
-                  Corporate
+                Code Canvas Creation Official
                 </Typography.Text>
                 <Typography.Text type="secondary" style={{ display: "block" }}>
                   Login to you account below.

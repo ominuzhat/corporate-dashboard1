@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
-import { Col, Form as AntForm, Input, Row, Button, Select } from "antd";
+import { Col, Form as AntForm, Input, Row, Button } from "antd";
 import { useUpdateOfficeInfoMutation } from "../api/OfficeInfoEndPoints";
 import {
   TOfficeInfoData,
   TUpdateOfficeInfoTypes,
 } from "../types/officeInfoTypes";
-import { useGetWebServiceQuery } from "../../Configuration/WebService/api/WebServiceEndPoints";
 
 interface Props {
   record: TOfficeInfoData;
@@ -13,18 +12,10 @@ interface Props {
 
 const UpdateOfficeInfo: React.FC<Props> = ({ record }) => {
   const [update, { isLoading }] = useUpdateOfficeInfoMutation();
-  const { data: webServiceData }: any = useGetWebServiceQuery({});
   const [form] = AntForm.useForm();
-
-  const webServiceOptions =
-    webServiceData?.data.map((service: any) => ({
-      value: service?.id,
-      label: service?.serviceId,
-    })) || [];
 
   useEffect(() => {
     form.setFieldsValue({
-      webService: record?.webService?.id,
       phone: record?.phone,
       supportEmail: record?.supportEmail,
       officialEmail: record?.officialEmail,
@@ -57,27 +48,6 @@ const UpdateOfficeInfo: React.FC<Props> = ({ record }) => {
     <React.Fragment>
       <AntForm form={form} layout="vertical" onFinish={onFinish}>
         <Row gutter={[10, 10]}>
-          <Col lg={6}>
-            <AntForm.Item<TUpdateOfficeInfoTypes>
-              label="Web Service"
-              name="webService"
-              rules={[
-                { required: true, message: "Please select a web service" },
-              ]}
-            >
-              <Select
-                showSearch
-                placeholder="Select Web Service"
-                filterOption={(input, option) =>
-                  (option?.label ?? "")
-                    .toString()
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-                options={webServiceOptions}
-              />
-            </AntForm.Item>
-          </Col>
           <Col span={24} lg={12}>
             <AntForm.Item<TUpdateOfficeInfoTypes>
               label="Phone"

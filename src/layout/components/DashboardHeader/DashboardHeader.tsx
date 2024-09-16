@@ -61,7 +61,7 @@ const DashboardHeader: React.FC<Props> = ({ setOpen }) => {
               strong
               style={{ display: "block", fontSize: "1.2rem" }}
             >
-              Hello, {data?.data?.firstName || "Corporate"}
+              Hello, {data?.data?.firstName || "Code Canvas Creation Official"}
             </Typography.Text>
             <Typography.Text
               type="secondary"
@@ -133,7 +133,7 @@ const DashboardHeader: React.FC<Props> = ({ setOpen }) => {
                     pointerEvents: "none",
                   }}
                 />
-                <Typography.Text strong>Corporate</Typography.Text>
+                <Typography.Text strong>Code Canvas Creation Official</Typography.Text>
                 <Typography.Text type="secondary" style={{ fontSize: "11px" }}>
                   btstravelExpress@gmail.com
                 </Typography.Text>

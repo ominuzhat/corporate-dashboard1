@@ -21,7 +21,6 @@ const BlogPage = () => {
 
   const { data: blogData, isLoading } = useGetBlogQuery(filter);
 
-  console.log(blogData)
 
   return (
     <div className="space-y-5">

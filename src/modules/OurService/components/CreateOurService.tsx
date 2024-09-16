@@ -6,25 +6,34 @@ import {
   TCreateOurServiceTypes,
   TOurServiceFAQ,
 } from "../types/OurServiceTypes";
-import { useGetWebServiceQuery } from "../../Configuration/WebService/api/WebServiceEndPoints";
 import { useGetCategoryQuery } from "../../Configuration/Category/api/CategoryEndPoints";
 import { PlusOutlined, MinusCircleOutlined } from "@ant-design/icons";
+import "react-quill/dist/quill.snow.css";
+import ReactQuill from "react-quill";
+
+const quilModules: any = {
+  toolbar: [
+    [{ header: "1" }, { header: "2" }, { font: [] }],
+    ["bold", "italic", "underline", "strike"],
+    [{ list: "ordered" }, { list: "bullet" }],
+    [{ indent: "-1" }, { indent: "+1" }],
+    [{ align: [] }],
+    [{ color: [] }, { background: [] }],
+    ["blockquote", "code-block"],
+    ["link", "image", "video"],
+    ["clean"],
+  ],
+};
 
 const CreateOurService = () => {
   const [create, { isLoading, isSuccess }] = useCreateOurServiceMutation();
-  const { data: webServiceData }: any = useGetWebServiceQuery({});
   const { data: categoryData }: any = useGetCategoryQuery({});
+  const [description, setDescription] = useState("");
 
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
   const [faqs, setFaqs] = useState<TOurServiceFAQ[]>([]);
-
-  const webServiceOptions =
-    webServiceData?.data?.map((service: any) => ({
-      value: service?.id,
-      label: service?.serviceId,
-    })) || [];
 
   const categoryOptions =
     categoryData?.data?.map((service: any) => ({
@@ -93,28 +102,6 @@ const CreateOurService = () => {
     <React.Fragment>
       <Form onFinish={onFinish} isLoading={isLoading} isSuccess={isSuccess}>
         <Row gutter={[10, 10]}>
-          <Col lg={12}>
-            <Form.Item<TCreateOurServiceTypes>
-              label="Web Service"
-              name="webService"
-              rules={[
-                { required: true, message: "Please select a web service" },
-              ]}
-            >
-              <Select
-                showSearch
-                placeholder="Select Web Service"
-                filterOption={(input, option) =>
-                  (option?.label ?? "")
-                    .toString()
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-                options={webServiceOptions}
-              />
-            </Form.Item>
-          </Col>
-
           <Col lg={12}>
             <Form.Item<TCreateOurServiceTypes>
               label="Category"
@@ -215,9 +202,17 @@ const CreateOurService = () => {
               name="description"
               rules={[{ required: true, message: "Description is required" }]}
             >
-              <Input.TextArea placeholder="Description" rows={4} />
+              <ReactQuill
+                value={description}
+                onChange={setDescription}
+                placeholder="Enter description here..."
+                theme="snow"
+                style={{ height: "200px" }}
+                modules={quilModules}
+              />
             </Form.Item>
           </Col>
+
 
           <Col span={24} lg={24}>
             <Form.Item<TCreateOurServiceTypes>

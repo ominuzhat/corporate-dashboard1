@@ -9,7 +9,6 @@ const BlogView = () => {
   const { data } = useSingleBlogItemQuery({ id: Number(blogId) });
 
   const {
-    webService,
     title,
     subtitle,
     slug,
@@ -25,11 +24,6 @@ const BlogView = () => {
   }: TBlogDataTypes = data?.data || {};
 
   const borderedItems: DescriptionsProps["items"] = [
-    {
-      key: "2",
-      label: <div className="custom-label font-bold">Web Service ID</div>,
-      children: <div>{webService?.serviceId || "N/A"}</div>,
-    },
     {
       key: "9",
       label: <div className="custom-label font-bold">Category</div>,

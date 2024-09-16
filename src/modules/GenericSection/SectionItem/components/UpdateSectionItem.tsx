@@ -15,9 +15,25 @@ import {
   useUpdateSectionItemMutation,
 } from "../api/SectionItemEndPoints";
 import { useGetSectionQuery } from "../../Section/api/SectionEndPoints";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 interface Props {
   record: any;
+}
+
+const quilModules: any = {
+  toolbar: [
+    [{ header: "1" }, { header: "2" }, { font: [] }],
+    ["bold", "italic", "underline", "strike"],
+    [{ list: "ordered" }, { list: "bullet" }],
+    [{ indent: "-1" }, { indent: "+1" }],
+    [{ align: [] }],
+    [{ color: [] }, { background: [] }],
+    ["blockquote", "code-block"],
+    ["link", "image", "video"],
+    ["clean"],
+  ],
 }
 
 const UpdateSectionItem: React.FC<Props> = React.memo(({ record }) => {
@@ -31,6 +47,7 @@ const UpdateSectionItem: React.FC<Props> = React.memo(({ record }) => {
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
   const [fileList, setFileList] = useState<any[]>([]);
+  const [description, setDescription] = useState("");
   console.log(fileList);
 
   const sectionOptions =
@@ -41,6 +58,7 @@ const UpdateSectionItem: React.FC<Props> = React.memo(({ record }) => {
 
   useEffect(() => {
     if (singleSectionItem) {
+      setDescription(singleSectionItem.data.description || "")
       form.setFieldsValue({
         title: singleSectionItem.data.title || "",
         subtitle: singleSectionItem.data.subtitle || "",
@@ -93,7 +111,6 @@ const UpdateSectionItem: React.FC<Props> = React.memo(({ record }) => {
               }
             });
           } else if (value.length === 1) {
-            // If there's an existing image and no new upload, append the URL
             formData.append(key, value[0].url || value[0].thumbUrl);
           }
         }
@@ -144,11 +161,19 @@ const UpdateSectionItem: React.FC<Props> = React.memo(({ record }) => {
               <Input placeholder="SectionItem Subtitle." />
             </AntForm.Item>
           </Col>
-          <Col lg={8}>
+          <Col lg={24}>
             <AntForm.Item label="Description" name="description">
-              <Input placeholder="Description" />
+            <ReactQuill
+                value={description}
+                onChange={setDescription}
+                placeholder="Enter description here..."
+                theme="snow"
+                style={{height: '200px'}}
+                modules={quilModules}
+              />
             </AntForm.Item>
           </Col>
+          <div className="mt-5 w-1"></div>
           <Col span={24} lg={24}>
             <AntForm.Item
               label="Icon"

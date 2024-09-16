@@ -5,6 +5,22 @@ import { useCreateSectionItemMutation } from "../api/SectionItemEndPoints";
 import { TCreateSectionItemTypes } from "../types/SectionItemTypes";
 import { PlusOutlined } from "@ant-design/icons";
 import { useGetSectionQuery } from "../../Section/api/SectionEndPoints";
+import "react-quill/dist/quill.snow.css";
+import ReactQuill from "react-quill";
+
+const quilModules: any = {
+  toolbar: [
+    [{ header: "1" }, { header: "2" }, { font: [] }],
+    ["bold", "italic", "underline", "strike"],
+    [{ list: "ordered" }, { list: "bullet" }],
+    [{ indent: "-1" }, { indent: "+1" }],
+    [{ align: [] }],
+    [{ color: [] }, { background: [] }],
+    ["blockquote", "code-block"],
+    ["link", "image", "video"],
+    ["clean"],
+  ],
+};
 
 const CreateSectionItem = () => {
   const [create, { isLoading, isSuccess }] = useCreateSectionItemMutation();
@@ -19,6 +35,7 @@ const CreateSectionItem = () => {
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
+  const [description, setDescription] = useState("");
 
   const handlePreview = async (file: any) => {
     setPreviewImage(file.thumbUrl || file.url);
@@ -30,15 +47,14 @@ const CreateSectionItem = () => {
 
   const handleCancel = () => setPreviewVisible(false);
 
-
   const onFinish = (values: any): void => {
     const formData: FormData = new FormData();
-  
+
     Object.entries(values).forEach(([key, value]) => {
-      if (key === 'keyPoints' && typeof value === 'string') {
+      if (key === "keyPoints" && typeof value === "string") {
         formData.append(key, JSON.stringify([value]));
       } else if (Array.isArray(value)) {
-        if (key === 'keyPoints') {
+        if (key === "keyPoints") {
           formData.append(key, JSON.stringify(value));
         } else {
           value.forEach((file) => {
@@ -55,7 +71,6 @@ const CreateSectionItem = () => {
     });
     create(formData);
   };
-  
 
   return (
     <React.Fragment>
@@ -65,9 +80,7 @@ const CreateSectionItem = () => {
             <Form.Item<TCreateSectionItemTypes>
               label="Page Section"
               name="genericPageSection"
-              rules={[
-                { required: true, message: "Page Section" },
-              ]}
+              rules={[{ required: true, message: "Page Section" }]}
             >
               <Select
                 showSearch
@@ -106,9 +119,17 @@ const CreateSectionItem = () => {
               name="description"
               rules={[{ required: true, message: "Description is required" }]}
             >
-              <Input.TextArea placeholder="Description" rows={4} />
+              <ReactQuill
+                value={description}
+                onChange={setDescription}
+                placeholder="Enter description here..."
+                theme="snow"
+                style={{ height: "200px" }}
+                modules={quilModules}
+              />
             </Form.Item>
           </Col>
+          <div className="mt-5 w-1"></div>
           <Col span={24} lg={24}>
             <Form.Item<TCreateSectionItemTypes>
               label="Icon"

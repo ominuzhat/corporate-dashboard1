@@ -14,7 +14,22 @@ import {
   useSingleSectionQuery,
   useUpdateSectionMutation,
 } from "../api/SectionEndPoints";
-import { useGetWebServiceQuery } from "../../../Configuration/WebService/api/WebServiceEndPoints";
+import "react-quill/dist/quill.snow.css";
+import ReactQuill from "react-quill";
+
+const quilModules: any = {
+  toolbar: [
+    [{ header: "1" }, { header: "2" }, { font: [] }],
+    ["bold", "italic", "underline", "strike"],
+    [{ list: "ordered" }, { list: "bullet" }],
+    [{ indent: "-1" }, { indent: "+1" }],
+    [{ align: [] }],
+    [{ color: [] }, { background: [] }],
+    ["blockquote", "code-block"],
+    ["link", "image", "video"],
+    ["clean"],
+  ],
+};
 
 interface Props {
   record: any;
@@ -22,29 +37,24 @@ interface Props {
 
 const UpdateSection: React.FC<Props> = React.memo(({ record }) => {
   const { data: singleSection } = useSingleSectionQuery({ id: record?.id });
-  const { data: webServiceData }: any = useGetWebServiceQuery({});
   const [update, { isLoading }] = useUpdateSectionMutation();
   const [form] = AntForm.useForm();
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
   const [fileList, setFileList] = useState<any[]>([]);
+  const [description, setDescription] = useState("");
   console.log(fileList);
-  const webServiceOptions =
-    webServiceData?.data.map((service: any) => ({
-      value: service?.id,
-      label: service?.serviceId,
-    })) || [];
 
   useEffect(() => {
     if (singleSection) {
+      setDescription(singleSection.data.description || "");
       form.setFieldsValue({
         title: singleSection.data.title || "",
         subtitle: singleSection.data.subtitle || "",
         sectionName: singleSection.data.sectionName || "",
         description: singleSection.data.description || "",
         icon: singleSection.data.icon || "",
-        webService: singleSection.data?.webService?.id,
         keyPoints: singleSection.data.keyPoints || [],
         image: singleSection.data.image
           ? [
@@ -91,7 +101,6 @@ const UpdateSection: React.FC<Props> = React.memo(({ record }) => {
               }
             });
           } else if (value.length === 1) {
-            // If there's an existing image and no new upload, append the URL
             formData.append(key, value[0].url || value[0].thumbUrl);
           }
         }
@@ -111,27 +120,6 @@ const UpdateSection: React.FC<Props> = React.memo(({ record }) => {
     <div>
       <AntForm form={form} layout="vertical" onFinish={onFinish}>
         <Row gutter={16}>
-          <Col lg={6}>
-            <AntForm.Item
-              label="Web Service"
-              name="webService"
-              rules={[
-                { required: true, message: "please select a web service" },
-              ]}
-            >
-              <Select
-                showSearch
-                placeholder="Select Web Service"
-                filterOption={(input, option) =>
-                  (option?.label ?? "")
-                    .toString()
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-                options={webServiceOptions}
-              />
-            </AntForm.Item>
-          </Col>
           <Col lg={8}>
             <AntForm.Item label="Title" name="title">
               <Input placeholder="Section Title." />
@@ -147,9 +135,16 @@ const UpdateSection: React.FC<Props> = React.memo(({ record }) => {
               <Input placeholder="Section Subtitle." />
             </AntForm.Item>
           </Col>
-          <Col lg={8}>
+          <Col lg={24}>
             <AntForm.Item label="Description" name="description">
-              <Input placeholder="Description" />
+              <ReactQuill
+                value={description}
+                onChange={setDescription}
+                placeholder="Enter description here..."
+                theme="snow"
+                style={{ height: "200px" }}
+                modules={quilModules}
+              />
             </AntForm.Item>
           </Col>
           <Col lg={16}>

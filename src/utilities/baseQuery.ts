@@ -1,10 +1,9 @@
 const isDevelopment: boolean = process.env.NODE_ENV === "development";
 
 const productionUrl: string =
-  "https://api-corporate.codecanvascreation.com";
+  "https://api.codecanvascreation.com";
 
-const localUrl: string = "https://api-corporate.codecanvascreation.com"; // A
-// const localUrl: string = "http://192.168.0.193:9004/api/v1"; // A
+const localUrl: string = "https://api.codecanvascreation.com";
 
 export const baseUrl: string = isDevelopment ? localUrl : productionUrl;
 

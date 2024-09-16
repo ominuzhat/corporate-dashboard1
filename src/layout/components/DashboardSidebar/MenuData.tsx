@@ -1,9 +1,9 @@
 import { Menu, MenuProps } from "antd";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import { constant } from "../../../common/constant/Constant";
 import Iconify from "../../../common/IconifyConfig/IconifyConfig";
 import SidebarTop from "./SidebarTop";
-import { constant } from "../../../common/constant/Constant";
 
 interface MenuDataProps {
   role: any;
@@ -36,6 +36,11 @@ const MenuData: React.FC<MenuDataProps> = ({ role }: any) => {
     {
       key: "/our-service",
       label: <Link to="/our-service">Our Service</Link>,
+      icon: <Iconify name="mdi:work" style={iconStyle} />,
+    },
+    {
+      key: "/product",
+      label: <Link to="/product">Product</Link>,
       icon: <Iconify name="mdi:work" style={iconStyle} />,
     },
     {
@@ -87,24 +92,21 @@ const MenuData: React.FC<MenuDataProps> = ({ role }: any) => {
       icon: <Iconify name="mdi:work" style={iconStyle} />,
       children: [
         {
+          label: <Link to="/tag">Tag</Link>,
+          icon: <Iconify name="tdesign:course" style={subIconStyle} />,
+          key: "/tag",
+        },
+        {
           label: <Link to="/category">Category</Link>,
           icon: <Iconify name="tdesign:course" style={subIconStyle} />,
           key: "/category",
+          
         },
         {
-          label: <Link to="/web-service">Web Service</Link>,
+          label: <Link to="/product-category">Product Category</Link>,
           icon: <Iconify name="tdesign:course" style={subIconStyle} />,
-          key: "/web-service",
+          key: "/product-category",
         },
-        ...(role === constant.ROLE
-          ? [
-              {
-                label: <Link to="/key-management">Key Management</Link>,
-                icon: <Iconify name="tdesign:course" style={subIconStyle} />,
-                key: "/key-management",
-              },
-            ]
-          : []),
       ],
     },
   ];

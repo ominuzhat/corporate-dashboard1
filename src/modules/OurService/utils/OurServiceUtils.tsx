@@ -29,14 +29,6 @@ const useColumns = (): ColumnsType<TOurServiceDataTypes> => {
       render: (_text, _record, index) => index + 1,
     },
     {
-      key: "1",
-      title: "Web Service Id",
-      align: "center",
-      dataIndex: "webService",
-      render: (webService) =>
-        webService?.serviceId ? webService?.serviceId : "N/A",
-    },
-    {
       key: "2",
       title: "Title",
       align: "center",
